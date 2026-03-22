@@ -1,0 +1,424 @@
+/* ─────────────────────────────────────────
+   CSS Variables — GPX Weather App palette
+───────────────────────────────────────── */
+:root {
+  --color-primary:       #2D6A6A;
+  --color-primary-light: #C8E6E6;
+  --color-card-bg:       #D6E8EE;
+  --color-page-bg:       #F4F8F9;
+  --color-text:          #1a1a1a;
+  --color-text-sub:      #555;
+  --color-white:         #ffffff;
+  --color-danger:        #c0392b;
+  --color-danger-light:  #fdecea;
+  --color-border:        #cde0e0;
+  --color-pill-active:   #2D6A6A;
+  --color-pill-text:     #2D6A6A;
+  --radius-card:         14px;
+  --radius-btn:          10px;
+  --topbar-height:       86px;
+}
+
+/* ─────────────────────────────────────────
+   Page shell
+───────────────────────────────────────── */
+.settings-page {
+  min-height: 100vh;
+  background-color: var(--color-page-bg);
+  font-family: 'Inter', sans-serif;
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─────────────────────────────────────────
+   Topbar
+───────────────────────────────────────── */
+.settings-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--topbar-height);
+  background-color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.settings-topbar-back {
+  background: none;
+  border: none;
+  color: var(--color-white);
+  font-size: 22px;
+  cursor: pointer;
+  padding: 8px 12px 8px 0;
+  line-height: 1;
+}
+
+.settings-topbar-title {
+  flex: 1;
+  text-align: center;
+  color: var(--color-white);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.settings-topbar-spacer {
+  width: 44px; /* balances the back button */
+}
+
+/* ─────────────────────────────────────────
+   Scrollable body
+───────────────────────────────────────── */
+.settings-body {
+  flex: 1;
+  padding: 20px 16px 40px;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ─────────────────────────────────────────
+   Sections
+───────────────────────────────────────── */
+.settings-section {
+  margin-bottom: 28px;
+}
+
+.settings-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  margin: 0 4px 8px;
+}
+
+/* ─────────────────────────────────────────
+   Cards
+───────────────────────────────────────── */
+.settings-card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.settings-card-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-sub);
+  padding: 12px 16px 4px;
+  margin: 0;
+}
+
+.settings-card-danger {
+  border-color: #f5c6c2;
+}
+
+/* ─────────────────────────────────────────
+   Rows
+───────────────────────────────────────── */
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  min-height: 52px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.settings-row-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+}
+
+.settings-row-button:hover {
+  background-color: var(--color-primary-light);
+}
+
+.settings-divider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 0 16px;
+}
+
+/* ─────────────────────────────────────────
+   Labels
+───────────────────────────────────────── */
+.settings-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.settings-sublabel {
+  font-size: 12px;
+  color: var(--color-text-sub);
+  margin: 3px 0 0;
+  line-height: 1.4;
+  max-width: 220px;
+}
+
+.settings-label-danger {
+  color: var(--color-danger);
+}
+
+.settings-chevron {
+  color: var(--color-text-sub);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────
+   Inputs
+───────────────────────────────────────── */
+.settings-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: var(--color-text);
+  text-align: right;
+  width: 100%;
+  max-width: 200px;
+  font-family: inherit;
+}
+
+.settings-input-block {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  text-align: left;
+  background-color: var(--color-page-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 8px 16px 0;
+  width: calc(100% - 32px);
+  box-sizing: border-box;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.settings-input-block:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+/* ─────────────────────────────────────────
+   Password form
+───────────────────────────────────────── */
+.settings-password-form {
+  padding-bottom: 14px;
+}
+
+.settings-msg {
+  margin: 8px 16px 0;
+  font-size: 13px;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.settings-msg-ok {
+  background-color: #e6f4ea;
+  color: #2d6a3f;
+}
+
+.settings-msg-err {
+  background-color: #fdecea;
+  color: var(--color-danger);
+}
+
+/* ─────────────────────────────────────────
+   Buttons
+───────────────────────────────────────── */
+.settings-btn {
+  display: block;
+  width: calc(100% - 32px);
+  margin: 12px 16px 4px;
+  padding: 12px;
+  border-radius: var(--radius-btn);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s;
+}
+
+.settings-btn:hover {
+  opacity: 0.88;
+}
+
+.settings-btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.settings-btn-ghost {
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  width: auto;
+  margin: 0;
+  padding: 10px 20px;
+}
+
+.settings-btn-danger {
+  background-color: var(--color-danger);
+  color: var(--color-white);
+  width: auto;
+  margin: 0;
+  padding: 10px 20px;
+}
+
+/* ─────────────────────────────────────────
+   Toggle switch
+───────────────────────────────────────── */
+.settings-toggle {
+  position: relative;
+  width: 50px;
+  height: 28px;
+  background-color: #ccc;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s;
+  padding: 0;
+}
+
+.settings-toggle-on {
+  background-color: var(--color-primary);
+}
+
+.settings-toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background-color: var(--color-white);
+  border-radius: 50%;
+  transition: transform 0.2s;
+  display: block;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.settings-toggle-on .settings-toggle-thumb {
+  transform: translateX(22px);
+}
+
+/* ─────────────────────────────────────────
+   Unit pill selector
+───────────────────────────────────────── */
+.settings-pill-group {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.settings-pill {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1.5px solid var(--color-primary);
+  background: transparent;
+  color: var(--color-pill-text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.settings-pill-active {
+  background-color: var(--color-pill-active);
+  color: var(--color-white);
+}
+
+/* ─────────────────────────────────────────
+   Default pace input
+───────────────────────────────────────── */
+.settings-pace-input-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.settings-pace-input {
+  width: 56px;
+  padding: 6px 10px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  text-align: center;
+  color: var(--color-text);
+  background: var(--color-page-bg);
+}
+
+.settings-pace-input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.settings-pace-unit {
+  font-size: 14px;
+  color: var(--color-text-sub);
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────
+   Delete confirm
+───────────────────────────────────────── */
+.settings-delete-confirm {
+  padding: 14px 16px;
+}
+
+.settings-delete-warning {
+  font-size: 14px;
+  color: var(--color-danger);
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.settings-delete-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* ─────────────────────────────────────────
+   GDPR footer note
+───────────────────────────────────────── */
+.settings-gdpr-note {
+  text-align: center;
+  font-size: 11px;
+  color: var(--color-text-sub);
+  margin-top: 8px;
+}
+
+/* ─────────────────────────────────────────
+   Mobile responsiveness
+───────────────────────────────────────── */
+@media (max-width: 420px) {
+  .settings-sublabel {
+    max-width: 160px;
+  }
+
+  .settings-pill {
+    padding: 5px 9px;
+    font-size: 12px;
+  }
+}
