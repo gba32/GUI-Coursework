@@ -1,0 +1,54 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0.25em;
+    border: 1px solid var(--mui-palette-primary-main);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.card>.title {
+    background: var(--mui-palette-primary-main);
+    padding: 0.25em;
+    flex-grow: 1;
+    width: stretch;
+}
+
+.card>.scroller {
+    display: flex;
+    max-height: 20vh;
+    list-style: none;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    min-height: 5vh;
+    gap: 0.2em;
+}
+
+.card>.scroller.expanded {
+    max-height: none;
+}
+
+.card>.scroller>.item {
+    flex-grow: 1;
+    justify-items: center;
+    align-items: center;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+    width: stretch;
+
+}
+
+.card>.expandButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--mui-palette-primary-main);
+    color: black;
+    align-self: stretch;
+}
+
+.listItem {
+    padding: 0.1em;
+    background-color: #FFFFFF;
+}

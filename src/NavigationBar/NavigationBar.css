@@ -1,0 +1,31 @@
+.navbar {
+    display: grid;
+    background: var(--mui-palette-primary-dark);
+    color: white;
+    text-align: center;
+}
+
+.navbar>div {
+    flex: auto;
+    width: 100%;
+    font-weight: bold;
+    align-items: center;
+}
+
+.navbar.title {
+    position: fixed;
+}
+
+.navDrawer>h5  {
+    padding: 0.25em;
+}
+
+.navDrawer {
+    display: flex;
+    flex-direction: column;
+}
+
+.navDrawer>* {
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+}
