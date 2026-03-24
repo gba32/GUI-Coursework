@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import MainRouter from './NavigationBar/NavLinks';
+import SettingsPage from './SettingsPage/SettingsPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import HomePage from "../HomePage/HomePage";
 import WeatherPage from "../WeatherPage/WeatherPage";
+import SettingsPage from '../SettingsPage/SettingsPage';
 
 // Class for storing Navigation url paths
 class NavPath {
@@ -15,6 +16,7 @@ class NavPath {
 export const PATHS = [
     new NavPath("/", "Home", <HomePage username="GBA32" loggedIn />),
     new NavPath("/weather", "Weather", <WeatherPage />),
+    new NavPath("/settings", "Settings", <SettingsPage/>)
 ]
 
 /**
