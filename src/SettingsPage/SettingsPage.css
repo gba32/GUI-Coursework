@@ -1,89 +1,84 @@
-/* ─────────────────────────────────────────
-   CSS Variables — GPX Weather App palette
-───────────────────────────────────────── */
-:root {
-  --color-primary:       #2D6A6A;
-  --color-primary-light: #C8E6E6;
-  --color-card-bg:       #D6E8EE;
-  --color-page-bg:       #F4F8F9;
-  --color-text:          #1a1a1a;
-  --color-text-sub:      #555;
-  --color-white:         #ffffff;
-  --color-danger:        #c0392b;
-  --color-danger-light:  #fdecea;
-  --color-border:        #cde0e0;
-  --color-pill-active:   #2D6A6A;
-  --color-pill-text:     #2D6A6A;
-  --radius-card:         14px;
-  --radius-btn:          10px;
-  --topbar-height:       86px;
+
+
+
+:root {             /* main colours for the whole file for ease of editing */
+  --primary: #2D6A6A;
+  --primary-light: #C8E6E6;
+  --page-bg: #F4F8F9;
+  --card-border: #cde0e0;
+  --text: #1a1a1a;
+  --text-sub: #555;
+  --white: #ffffff;
+  --danger: #c0392b;
+  --danger-bg: #fdecea;
+  --topbar-height: 86px;
 }
 
-/* ─────────────────────────────────────────
-   Page shell
-───────────────────────────────────────── */
 .settings-page {
-  min-height: 100vh;
-  background-color: var(--color-page-bg);
+  min-height: 100vh;             /* allows to always fill the whole screen height */
+  background-color: var(--page-bg);
   font-family: 'Inter', sans-serif;
-  color: var(--color-text);
-  display: flex;
+  color: var(--text);
+  display: flex;             /* stack opbar anf body content onop of each other */
   flex-direction: column;
 }
 
-/* ─────────────────────────────────────────
-   Topbar
-───────────────────────────────────────── */
+/* topbar */
 .settings-topbar {
-  position: sticky;
+  position: sticky;             /* stay fixed at the top */
   top: 0;
   z-index: 100;
   height: var(--topbar-height);
-  background-color: var(--color-primary);
+  background-color: var(--primary);
   display: flex;
   align-items: center;
   padding: 0 16px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0,0,0,0.25);
 }
 
-.settings-topbar-back {
+.settings-topbar-back {              /* back arrow, age title and menu button */
   background: none;
   border: none;
-  color: var(--color-white);
+  color: var(--white);
   font-size: 22px;
   cursor: pointer;
   padding: 8px 12px 8px 0;
-  line-height: 1;
 }
 
 .settings-topbar-title {
   flex: 1;
   text-align: center;
-  color: var(--color-white);
+  color: var(--white);
   font-size: 24px;
   font-weight: 700;
 }
 
-.settings-topbar-spacer {
-  width: 44px; /* balances the back button */
+
+.settings-topbar-menu {
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 22px;
+  cursor: pointer;
+  padding: 8px 0 8px 12px;
 }
 
-/* ─────────────────────────────────────────
-   Scrollable body
-───────────────────────────────────────── */
+.settings-topbar-menu:hover,
+.settings-topbar-back:hover {
+  opacity: 0.75;
+}
+
 .settings-body {
-  flex: 1;
-  padding: 20px 16px 40px;
+  flex: 1;                     /* fill the remaining verical space under the topbar */
+  padding: 20px 16px 40px;                      /* to stop from stretching to the whole screen eg. on computer */
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
 }
 
-/* ─────────────────────────────────────────
-   Sections
-───────────────────────────────────────── */
-.settings-section {
+/* sections */
+.settings-section {                          /* bottom margin on all sections */
   margin-bottom: 28px;
 }
 
@@ -91,18 +86,16 @@
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-primary);
+  letter-spacing: 0.08em;                          /* thought the spacing made it look better but can change it */
+  color: var(--primary);
   margin: 0 4px 8px;
 }
 
-/* ─────────────────────────────────────────
-   Cards
-───────────────────────────────────────── */
+/* cards to contain all the individual setings for each section*/
 .settings-card {
-  background-color: var(--color-white);
-  border-radius: var(--radius-card);
-  border: 1px solid var(--color-border);
+  background-color: var(--white);
+  border-radius: 14px;
+  border: 1px solid var(--card-border);
   overflow: hidden;
   margin-bottom: 10px;
 }
@@ -110,7 +103,7 @@
 .settings-card-label {
   font-size: 13px;
   font-weight: 600;
-  color: var(--color-text-sub);
+  color: var(--text-sub);
   padding: 12px 16px 4px;
   margin: 0;
 }
@@ -119,21 +112,26 @@
   border-color: #f5c6c2;
 }
 
-/* ─────────────────────────────────────────
-   Rows
-───────────────────────────────────────── */
+/* rows which are all the individual items in the cards*/
 .settings-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between;              /* pushes label to the left and the buttons to the right */
   gap: 12px;
   padding: 14px 16px;
-  min-height: 52px;
+  min-height: 52px;                        /* minimum tap tardet on phones i think (material design guideline) */
   box-sizing: border-box;
   width: 100%;
 }
 
-.settings-row-button {
+/* used for the data storage row fr the text fills the whole width */
+.settings-row-full {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.settings-row-button {                      /* for clickable rows like password change */
   background: none;
   border: none;
   cursor: pointer;
@@ -142,52 +140,54 @@
 }
 
 .settings-row-button:hover {
-  background-color: var(--color-primary-light);
+  background-color: var(--primary-light);
 }
 
 .settings-divider {
   height: 1px;
-  background-color: var(--color-border);
+  background-color: var(--card-border);
   margin: 0 16px;
 }
 
-/* ─────────────────────────────────────────
-   Labels
-───────────────────────────────────────── */
+/* labels */
 .settings-label {
   font-size: 15px;
   font-weight: 500;
-  color: var(--color-text);
+  color: var(--text);
   white-space: nowrap;
 }
 
 .settings-sublabel {
   font-size: 12px;
-  color: var(--color-text-sub);
+  color: var(--text-sub);
   margin: 3px 0 0;
   line-height: 1.4;
   max-width: 220px;
 }
 
+/* when the sublabel sits below a full-width label, let it stretch */
+.settings-sublabel-full {
+  max-width: 100%;
+  white-space: normal;
+}
+
 .settings-label-danger {
-  color: var(--color-danger);
+  color: var(--danger);
 }
 
 .settings-chevron {
-  color: var(--color-text-sub);
+  color: var(--text-sub);
   font-size: 14px;
   flex-shrink: 0;
 }
 
-/* ─────────────────────────────────────────
-   Inputs
-───────────────────────────────────────── */
+/* inputs */
 .settings-input {
   border: none;
   outline: none;
   background: transparent;
   font-size: 15px;
-  color: var(--color-text);
+  color: var(--text);
   text-align: right;
   width: 100%;
   max-width: 200px;
@@ -196,28 +196,25 @@
 
 .settings-input-block {
   display: block;
-  width: 100%;
-  max-width: 100%;
   text-align: left;
-  background-color: var(--color-page-bg);
-  border: 1px solid var(--color-border);
+  background-color: var(--page-bg);
+  border: 1px solid var(--card-border);
   border-radius: 8px;
   padding: 10px 14px;
   margin: 8px 16px 0;
-  width: calc(100% - 32px);
+  width: calc(100% - 32px);                /* to stop text from overflowing from the box */
   box-sizing: border-box;
   font-size: 15px;
   font-family: inherit;
+  max-width: 100%;
 }
 
 .settings-input-block:focus {
-  border-color: var(--color-primary);
+  border-color: var(--primary);
   outline: none;
 }
 
-/* ─────────────────────────────────────────
-   Password form
-───────────────────────────────────────── */
+/* password form */
 .settings-password-form {
   padding-bottom: 14px;
 }
@@ -235,19 +232,17 @@
 }
 
 .settings-msg-err {
-  background-color: #fdecea;
-  color: var(--color-danger);
+  background-color: var(--danger-bg);
+  color: var(--danger);
 }
 
-/* ─────────────────────────────────────────
-   Buttons
-───────────────────────────────────────── */
+/* buttons */
 .settings-btn {
   display: block;
   width: calc(100% - 32px);
   margin: 12px 16px 4px;
   padding: 12px;
-  border-radius: var(--radius-btn);
+  border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
   font-family: inherit;
@@ -261,30 +256,28 @@
 }
 
 .settings-btn-primary {
-  background-color: var(--color-primary);
-  color: var(--color-white);
+  background-color: var(--primary);
+  color: var(--white);
 }
 
 .settings-btn-ghost {
   background-color: transparent;
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
+  border: 1px solid var(--card-border);
+  color: var(--text);
   width: auto;
   margin: 0;
   padding: 10px 20px;
 }
 
 .settings-btn-danger {
-  background-color: var(--color-danger);
-  color: var(--color-white);
+  background-color: var(--danger);
+  color: var(--white);
   width: auto;
   margin: 0;
   padding: 10px 20px;
 }
 
-/* ─────────────────────────────────────────
-   Toggle switch
-───────────────────────────────────────── */
+/* toggle switch */
 .settings-toggle {
   position: relative;
   width: 50px;
@@ -299,7 +292,7 @@
 }
 
 .settings-toggle-on {
-  background-color: var(--color-primary);
+  background-color: var(--primary);
 }
 
 .settings-toggle-thumb {
@@ -308,7 +301,7 @@
   left: 3px;
   width: 22px;
   height: 22px;
-  background-color: var(--color-white);
+  background-color: var(--white);
   border-radius: 50%;
   transition: transform 0.2s;
   display: block;
@@ -316,12 +309,10 @@
 }
 
 .settings-toggle-on .settings-toggle-thumb {
-  transform: translateX(22px);
+  transform: translateX(22px);                         /* button slide animation */
 }
 
-/* ─────────────────────────────────────────
-   Unit pill selector
-───────────────────────────────────────── */
+/* unit pills */
 .settings-pill-group {
   display: flex;
   gap: 6px;
@@ -331,9 +322,9 @@
 .settings-pill {
   padding: 5px 12px;
   border-radius: 20px;
-  border: 1.5px solid var(--color-primary);
+  border: 1.5px solid var(--primary);
   background: transparent;
-  color: var(--color-pill-text);
+  color: var(--primary);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -341,14 +332,12 @@
   transition: background-color 0.15s, color 0.15s;
 }
 
-.settings-pill-active {
-  background-color: var(--color-pill-active);
-  color: var(--color-white);
+.settings-pill-active {                           /* add or remove the class to make it acive or not depending on which unit user preferes */
+  background-color: var(--primary);
+  color: var(--white);
 }
 
-/* ─────────────────────────────────────────
-   Default pace input
-───────────────────────────────────────── */
+/* pace input */
 .settings-pace-input-group {
   display: flex;
   align-items: center;
@@ -359,36 +348,34 @@
 .settings-pace-input {
   width: 56px;
   padding: 6px 10px;
-  border: 1.5px solid var(--color-border);
+  border: 1.5px solid var(--card-border);
   border-radius: 8px;
   font-size: 15px;
   font-family: inherit;
   text-align: center;
-  color: var(--color-text);
-  background: var(--color-page-bg);
+  color: var(--text);
+  background: var(--page-bg);
 }
 
 .settings-pace-input:focus {
-  border-color: var(--color-primary);
+  border-color: var(--primary);
   outline: none;
 }
 
 .settings-pace-unit {
   font-size: 14px;
-  color: var(--color-text-sub);
+  color: var(--text-sub);
   white-space: nowrap;
 }
 
-/* ─────────────────────────────────────────
-   Delete confirm
-───────────────────────────────────────── */
+/* delete confirmation */
 .settings-delete-confirm {
   padding: 14px 16px;
 }
 
 .settings-delete-warning {
   font-size: 14px;
-  color: var(--color-danger);
+  color: var(--danger);                     /* visible red */
   margin: 0 0 14px;
   line-height: 1.5;
 }
@@ -399,24 +386,18 @@
   justify-content: flex-end;
 }
 
-/* ─────────────────────────────────────────
-   GDPR footer note
-───────────────────────────────────────── */
+/* gdpr footer */
 .settings-gdpr-note {
   text-align: center;
   font-size: 11px;
-  color: var(--color-text-sub);
+  color: var(--text-sub);
   margin-top: 8px;
 }
 
-/* ─────────────────────────────────────────
-   Mobile responsiveness
-───────────────────────────────────────── */
 @media (max-width: 420px) {
   .settings-sublabel {
     max-width: 160px;
   }
-
   .settings-pill {
     padding: 5px 9px;
     font-size: 12px;
