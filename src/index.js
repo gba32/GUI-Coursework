@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import SettingsPage from './SettingsPage/SettingsPage'
 import reportWebVitals from './reportWebVitals';
+import MainRouter from './NavigationBar/NavLinks';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-  <React.StrictMode>
-    <SettingsPage />
-  </React.StrictMode>
+	<React.StrictMode>
+		<MainRouter/>
+	</React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
