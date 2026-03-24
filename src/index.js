@@ -3,14 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 import reportWebVitals from './reportWebVitals';
-import getRouter from './NavigationBar/NavLinks';
-import { ThemeProvider } from '@emotion/react';
+import MainRouter from './NavigationBar/NavLinks';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
 	<React.StrictMode>
-		{ getRouter() }
+		<MainRouter/>
 	</React.StrictMode>
 );
 

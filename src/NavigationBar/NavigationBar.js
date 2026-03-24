@@ -1,7 +1,7 @@
 import { AppBar, Button, ButtonGroup, Drawer, Toolbar, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import './NavigationBar.css'
-import { ArrowBack, ArrowLeft } from "@mui/icons-material";
+import { ArrowBack } from "@mui/icons-material";
 import { useState } from "react";
 import { PATHS } from "./NavLinks";
 

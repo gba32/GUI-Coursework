@@ -21,7 +21,7 @@ export const PATHS = [
  * 
  * @returns 
  */
-export default function getRouter() {
+export default function MainRouter() {
     var routes = PATHS.map((path) => {
         return <Route path={path.relativePath} element={path.page} />
     });

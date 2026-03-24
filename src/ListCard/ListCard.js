@@ -1,8 +1,7 @@
-import { Button, ThemeProvider, Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import './ListCard.css'
-import { ArrowDropDown, ChatOutlined } from '@mui/icons-material'
-import { createElement, useState } from 'react'
-import { APP_THEME } from '../Theme/Theme';
+import { ArrowDropDown } from '@mui/icons-material'
+import { useState } from 'react'
 
 /**
  * 

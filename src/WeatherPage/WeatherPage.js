@@ -1,14 +1,14 @@
-import { CloudCircle, CloudCircleOutlined, CloudCircleRounded } from "@mui/icons-material";
-import { Divider, ThemeProvider, Typography } from "@mui/material";
+import { CloudCircleRounded } from "@mui/icons-material";
+import { ThemeProvider, Typography } from "@mui/material";
 import ListCard from "../ListCard/ListCard";
 import NavigationBar from "../NavigationBar/NavigationBar";
 import "./WeatherPage.css"
 import { APP_THEME } from "../Theme/Theme";
 
-class WeatherInfo {
-    static getCurrentDateWeather(apiKey, cityName, stateCode, countryCode) {
-    }
-}
+// class WeatherInfo {
+//     static getCurrentDateWeather(apiKey, cityName, stateCode, countryCode) {
+//     }
+// }
 
 export default function WeatherPage() {
     return (
