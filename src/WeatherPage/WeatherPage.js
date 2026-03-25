@@ -1,11 +1,14 @@
 import { CloudCircleRounded, Image } from "@mui/icons-material";
 import { Box, Icon, ThemeProvider, Typography } from "@mui/material";
+import { CloudCircleRounded, Image } from "@mui/icons-material";
+import { Box, Icon, ThemeProvider, Typography } from "@mui/material";
 import ListCard from "../ListCard/ListCard";
 import NavigationBar from "../NavigationBar/NavigationBar";
 import "./WeatherPage.css"
 import { APP_THEME } from "../Theme/Theme";
 import { useEffect, useState } from "react";
 import { data } from "react-router";
+import { API_KEY } from "../KEY_PROVIDER";
 
 
 
@@ -48,7 +51,7 @@ class WeatherInfo {
 export default function WeatherPage() {
     let [currentWeatherJSON, setCurrentWeather] = useState({ data: {}, loaded: false });
     let [dailyWeatherJSON, setDailyWeather] = useState({ data: {}, loaded: false });
-    const apiKey = "0414fe2bfb563e65ceb082e39ae88ba7";
+    const apiKey = API_KEY;
 
     useEffect(() => {
         WeatherInfo.fetchLocationData(apiKey, "London", 5)
@@ -69,10 +72,50 @@ export default function WeatherPage() {
                 <NavigationBar showBackButton title="London"></NavigationBar>
                 <CurrentWeatherCard json={currentWeatherJSON.data} enabled={currentWeatherJSON.loaded} />
                 <WeatherForecastCard json={dailyWeatherJSON.data} enabled={dailyWeatherJSON.loaded} />
+                <CurrentWeatherCard json={currentWeatherJSON.data} enabled={currentWeatherJSON.loaded} />
+                <WeatherForecastCard json={dailyWeatherJSON.data} enabled={dailyWeatherJSON.loaded} />
             </main>
         </ThemeProvider>
     );
 }
+
+function CurrentWeatherCard({ json, enabled }) {
+    if(enabled) {
+        const mainJSON = json["main"];
+        const weatherJSON = json["weather"][0];
+        return <section className="currentWeatherCard">
+        <Typography variant="h1">{
+            WeatherInfo.parseKelvin(mainJSON["temp"], WeatherInfo.kelvinToCelcius)
+        }°</Typography>
+        <Typography>Feels like {
+            WeatherInfo.parseKelvin(mainJSON["feels_like"], WeatherInfo.kelvinToCelcius)
+        }°</Typography>
+        <Box component="img" src={"https://openweathermap.org/img/wn/" + weatherJSON["icon"] + ".png"} />
+    </section> 
+    }
+
+    return null;
+}
+
+function WeatherCard(json) {
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const dayIndex = (new Date(json["dt"]).getDay());
+    return <div>
+        <Typography>
+            {days[dayIndex]}
+        </Typography>
+        <Typography>{
+            WeatherInfo.parseKelvin(json["main"]["temp"], WeatherInfo.kelvinToCelcius)
+        }°</Typography>
+    </div>;
+
+}
+
+function WeatherForecastCard({ json, enabled }) {
+    return enabled === true ? <ListCard showTitle title={"Weekly weather"} childPropsList={json} childTemplate={WeatherCard} ></ListCard> : <div></div>
+}
+
+
 
 function CurrentWeatherCard({ json, enabled }) {
     if(enabled) {
