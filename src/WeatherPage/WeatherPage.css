@@ -1,0 +1,10 @@
+.currentWeatherCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+}
+
+.currentWeatherCard > * {
+    align-self: center;
+}

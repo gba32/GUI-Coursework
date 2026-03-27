@@ -1,0 +1,58 @@
+.MainContainer {
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #F1F1F1;      
+}
+
+.MainContent {
+    flex-direction: column;
+    align-items: start;
+    justify-items: start;
+    position: relative;
+    flex-grow: 1;
+    min-height: 0;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.bottomContainer {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    justify-self: flex-end;
+    position: static;
+    padding-top: 4em;
+    flex-grow: 1;
+    bottom: 0;
+}
+
+.headerBar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 1.25em;
+    padding-bottom: 1.25em;
+}
+
+.headerBar>* {
+    padding-left: 0.1em;
+    padding-right: 0.1em;
+}
+
+.spacer {
+    height: 2.5rem;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 6em;
+    gap: 1em;
+}
+.buttonContainer>*{
+    width: 60%;
+    flex-grow: 1;
+}
