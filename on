@@ -1,0 +1,24 @@
+* [33m907ff18[m[33m ([m[1;31morigin/gabriel[m[33m)[m Fixed duplicate functions and imports.
+* [33med3c0da[m Fixed API_KEY leak.
+* [33m5c500db[m Added functionality to weather page.
+[31m|[m * [33m149c2f6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mSettings-page[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m added a folder with GPX files to test weather map
+[31m|[m [32m|[m * [33m51b335a[m[33m ([m[1;31morigin/Settings-page[m[33m)[m General changes.
+[31m|[m [32m|[m *   [33mdaa2850[m Merge remote-tracking branch 'master/gabriel' into Settings-page
+[31m|[m [32m|[m [34m|[m[31m\[m  
+[31m|[m [32m|[m[31m_[m[34m|[m[31m/[m  
+[31m|[m[31m/[m[32m|[m [34m|[m   
+* [32m|[m [34m|[m [33m25d5df5[m Minor cleanups.
+* [32m|[m [34m|[m [33m6f17747[m Implemented most of the Home and Weather pages, and added a navigation system.
+[35m|[m [32m|[m * [33m3e2090b[m Updated index.js.
+[35m|[m [32m|[m * [33m8f41ae0[m update settings page and add all comments, fix data storage text position
+[35m|[m [32m|[m * [33m65bb55e[m Add settings page test david
+[35m|[m [32m|[m[32m/[m  
+[35m|[m *   [33mf11d665[m Merge pull request #1 from gba32/gabriel
+[35m|[m [36m|[m[35m\[m  
+[35m|[m [36m|[m[35m/[m  
+[35m|[m[35m/[m[36m|[m   
+* [36m|[m [33m1df0d43[m Added material icons to the package requirements.
+[36m|[m[36m/[m  
+* [33m3f2c271[m Created pages.
+* [33mef04b98[m Updated packages.
+* [33md8e732e[m Initial commit.
