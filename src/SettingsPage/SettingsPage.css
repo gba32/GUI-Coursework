@@ -1,6 +1,5 @@
 
 
-
 :root {             /* main colours for the whole file for ease of editing */
   --primary: #2D6A6A;
   --primary-light: #C8E6E6;
@@ -19,7 +18,7 @@
   background-color: var(--page-bg);
   font-family: 'Inter', sans-serif;
   color: var(--text);
-  display: flex;             /* stack opbar anf body content onop of each other */
+  display: flex;             /* stack topbar and body content on top of each other */
   flex-direction: column;
 }
 
@@ -36,7 +35,7 @@
   box-shadow: 0 4px 4px rgba(0,0,0,0.25);
 }
 
-.settings-topbar-back {              /* back arrow, age title and menu button */
+.settings-topbar-back {              /* back arrow, page title and menu button */
   background: none;
   border: none;
   color: var(--white);
@@ -53,7 +52,7 @@
   font-weight: 700;
 }
 
-
+/* hamburger menu button, mirrors the back button on the other side */
 .settings-topbar-menu {
   background: none;
   border: none;
@@ -69,7 +68,7 @@
 }
 
 .settings-body {
-  flex: 1;                     /* fill the remaining verical space under the topbar */
+  flex: 1;                     /* fill the remaining vertical space under the topbar */
   padding: 20px 16px 40px;                      /* to stop from stretching to the whole screen eg. on computer */
   max-width: 500px;
   width: 100%;
@@ -86,12 +85,12 @@
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;                          /* thought the spacing made it look better but can change it */
+  letter-spacing: 0.08em;
   color: var(--primary);
   margin: 0 4px 8px;
 }
 
-/* cards to contain all the individual setings for each section*/
+/* cards to contain all the individual settings for each section */
 .settings-card {
   background-color: var(--white);
   border-radius: 14px;
@@ -112,19 +111,19 @@
   border-color: #f5c6c2;
 }
 
-/* rows which are all the individual items in the cards*/
+/* rows which are all the individual items in the cards */
 .settings-row {
   display: flex;
   align-items: center;
   justify-content: space-between;              /* pushes label to the left and the buttons to the right */
   gap: 12px;
   padding: 14px 16px;
-  min-height: 52px;                        /* minimum tap tardet on phones i think (material design guideline) */
+  min-height: 52px;                        /* minimum tap target on phones (material design guideline) */
   box-sizing: border-box;
   width: 100%;
 }
 
-/* used for the data storage row fr the text fills the whole width */
+/* used for the data storage row so the text fills the whole width */
 .settings-row-full {
   flex-direction: column;
   align-items: flex-start;
@@ -212,6 +211,11 @@
 .settings-input-block:focus {
   border-color: var(--primary);
   outline: none;
+}
+
+/* search inputs for friends and events */
+.settings-search-input {
+  margin-bottom: 4px;
 }
 
 /* password form */
@@ -332,9 +336,28 @@
   transition: background-color 0.15s, color 0.15s;
 }
 
-.settings-pill-active {                           /* add or remove the class to make it acive or not depending on which unit user preferes */
+/* add or remove this class to make a pill active depending on selection */
+.settings-pill-active {
   background-color: var(--primary);
   color: var(--white);
+}
+
+/* red pill variant used for remove buttons on friends and events */
+.settings-pill-danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.settings-pill-danger:hover {
+  background-color: var(--danger);
+  color: var(--white);
+}
+
+/* friend action buttons sit side by side */
+.settings-friend-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 /* pace input */
