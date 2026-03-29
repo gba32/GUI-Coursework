@@ -1,9 +1,17 @@
+//Imports
+
 import React, { useState } from 'react';              //import react and usecase to store and update onscreen values
 import './SettingsPage.css';
+import NavigationBar from '../NavigationBar/NavigationBar';
+import { APP_THEME } from '../Theme/Theme';
+import ListCard, {ListCardItem} from '../ListCard/ListCard';
+import { ThemeProvider } from '@mui/material';
+
+//friend and events json files with placeholder values
 import friendsData from './friends.json';
 import eventsData from './events.json';
 
-// the unit choices for the preferences section
+// unit choices for the preferences section
 const unitOptions = {
   temperature: ['°C', '°F'],
   distance: ['km', 'miles'],
@@ -12,44 +20,45 @@ const unitOptions = {
 
 export default function SettingsPage({ onBack, onMenuOpen }) {
 
-  // --- account state ---
+  // account name and email
   const [accountName, setAccountName] = useState('John Smith');
   const [email, setEmail] = useState('john.smith@email.com');
 
-  // password form is hidden by default and only shown when user taps Change Password
+  // password form is hidden by default and only shown when user taps 'Change Password' button
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordMsg, setPasswordMsg] = useState('');       // success or error message shown under the form
 
-  // --- preferences state ---
+  // user default unit preferences
   const [tempUnit, setTempUnit] = useState('°C');
   const [distUnit, setDistUnit] = useState('km');
   const [windUnit, setWindUnit] = useState('km/h');
-  const [defaultPace, setDefaultPace] = useState('20');     // default speed used to estimate arrival times
+  const [defaultPace, setDefaultPace] = useState('25');     // default speed used to estimate arrival times
 
-  // --- notifications and sync toggles ---
+  //notifications and sync toggles
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [syncEnabled, setSyncEnabled] = useState(true);
 
   // controls whether the delete confirmation warning is visible
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  // --- friends state ---
-  // loaded from friends.json as placeholder data for the demo
+
+
+  // loaded from friends.json as placeholder data for demo
   const [friends, setFriends] = useState(friendsData);
   const [friendSearch, setFriendSearch] = useState('');
   const [friendSearchResults, setFriendSearchResults] = useState([]);
 
   // two hardcoded pending requests to demonstrate the notification requirement
   const [friendRequests, setFriendRequests] = useState([
-    { id: 101, name: 'Alice Johnson', sport: 'Cyclist' },
-    { id: 102, name: 'Marcus Webb', sport: 'Runner' },
+    { id: 101, name: 'Lance Armstrong', sport: 'Cyclist' },
+    { id: 102, name: 'Usain Bolt', sport: 'Runner' },
   ]);
   const [friendMsg, setFriendMsg] = useState('');           // confirmation message after sending a request
 
-  // --- events state ---
+
   // first two events pre-saved to show the saved events section in the demo
   const [savedEvents, setSavedEvents] = useState(eventsData.slice(0, 2));
   const [allEvents] = useState(eventsData);                 // full list never changes so no setter needed
@@ -57,10 +66,9 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
   const [eventSortBy, setEventSortBy] = useState('popularity');
   const [eventMsg, setEventMsg] = useState('');             // confirmation message after saving an event
 
-  // ─────────────────────────────────────────
-  // password functions
-  // ─────────────────────────────────────────
 
+
+// passsword 
   function handlePasswordChange(e) {
     e.preventDefault();                                     // stop browser doing a full page reload on submit
 
@@ -74,9 +82,9 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
       setPasswordMsg('New passwords do not match.');
       return;
     }
-    // enforce a minimum length
-    if (newPassword.length < 8) {
-      setPasswordMsg('Password must be at least 8 characters.');
+    // minimum length requirement
+    if (newPassword.length < 6) {
+      setPasswordMsg('Password must be at least 6 characters.');
       return;
     }
     // all checks passed - in a real app this would call an API
@@ -87,40 +95,30 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
     setShowPasswordForm(false);
   }
 
-  // ─────────────────────────────────────────
-  // account deletion function
-  // ─────────────────────────────────────────
+  
 
+// account deletion method
   function handleDeleteAccount() {
-    // in a real app this would send a delete request to the backend
-    // for now just shows an alert to demonstrate the flow
+    // only shows an alert instead of actually deleting
     alert('Account deletion requested. All your data including saved GPX routes has been scheduled for removal.');
     setShowDeleteConfirm(false);
   }
 
-  // ─────────────────────────────────────────
-  // friends functions
-  // ─────────────────────────────────────────
 
+
+//friend method
   function handleFriendSearch(e) {
     const query = e.target.value;
     setFriendSearch(query);
     setFriendMsg('');
 
-    // dont search until at least 2 characters are typed
-    if (query.trim().length < 2) {
-      setFriendSearchResults([]);
-      return;
-    }
 
-    // pool of placeholder users to search through for the demo
-    // in a real app this would be an API call to search registered users
+    // placeholder users for demo use instead of API calls
     const currentFriendIds = friends.map(f => f.id);
     const searchPool = [
-      { id: 201, name: 'Sophie Clarke', sport: 'Cyclist' },
-      { id: 202, name: 'Tom Nguyen', sport: 'Runner' },
-      { id: 203, name: 'Priya Patel', sport: 'Triathlete' },
-      { id: 204, name: 'James Okafor', sport: 'Cyclist' },
+      { id: 201, name: 'Mathieu van der Poel', sport: 'Cyclist' },
+      { id: 202, name: 'Mo Farah', sport: 'Runner' },
+      { id: 203, name: 'Lance Armstrong', sport: 'Cyclist' },
     ];
 
     // filter out anyone already in the friends list so you cant add duplicates
@@ -132,7 +130,7 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
   }
 
   function sendFriendRequest(user) {
-    // remove the user from search results immediately so they cant be requested twice
+    // remove the user from search results so they cant be requested twice
     setFriendMsg(`Friend request sent to ${user.name}.`);
     setFriendSearchResults(prev => prev.filter(u => u.id !== user.id));
   }
@@ -144,7 +142,7 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
   }
 
   function declineFriendRequest(user) {
-    // just remove from pending requests, no other action needed
+    //remove from pending request list
     setFriendRequests(prev => prev.filter(r => r.id !== user.id));
   }
 
@@ -153,12 +151,8 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
     setFriends(prev => prev.filter(f => f.id !== friendId));
   }
 
-  // ─────────────────────────────────────────
-  // events functions
-  // ─────────────────────────────────────────
-
-  // filter and sort the full event list for the browse panel
-  // hides any events already saved and applies the current search and sort
+//events Method
+  //filter and sort events for the search and hide events that are already saved by the user
   const filteredEvents = allEvents
     .filter(ev => {
       const savedIds = savedEvents.map(e => e.id);
@@ -188,27 +182,19 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
     setSavedEvents(prev => prev.filter(e => e.id !== eventId));
   }
 
-  // ─────────────────────────────────────────
-  // render
-  // ─────────────────────────────────────────
 
+
+
+//Render of the page
   return (
     <div className="settings-page">
-
-      {/* topbar with back arrow, title and hamburger menu */}
-      <div className="settings-topbar">
-        <button className="settings-topbar-back" onClick={onBack} aria-label="Go back">
-          &#8592;
-        </button>
-        <span className="settings-topbar-title">Settings</span>
-        <button className="settings-topbar-menu" onClick={onMenuOpen} aria-label="Open menu">
-          &#9776;
-        </button>
-      </div>
+      <ThemeProvider theme={APP_THEME}>
+        <NavigationBar title = "Settings" />
+      </ThemeProvider>
 
       <div className="settings-body">
 
-        {/* ── ACCOUNT ── */}
+        {/* Account*/}
         <section className="settings-section">
           <h2 className="settings-section-title">Account</h2>
 
@@ -300,7 +286,7 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
           </div>
         </section>
 
-        {/* ── PREFERENCES ── */}
+        {/*PReferences */}
         <section className="settings-section">
           <h2 className="settings-section-title">Preferences</h2>
 
@@ -354,7 +340,7 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
             </div>
           </div>
 
-          {/* default speed input - unit label updates automatically to match the distance unit chosen above */}
+          {/* default speed input with unit changing to match the one chosen by the user */}
           <div className="settings-card">
             <div className="settings-row">
               <div>
@@ -376,7 +362,7 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
           </div>
         </section>
 
-        {/* ── NOTIFICATIONS ── */}
+        {/* Notifications */}
         <section className="settings-section">
           <h2 className="settings-section-title">Notifications</h2>
 
@@ -397,11 +383,11 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
           </div>
         </section>
 
-        {/* ── FRIENDS ── */}
+        {/* Friends */}
         <section className="settings-section">
           <h2 className="settings-section-title">Friends</h2>
 
-          {/* pending requests card - only renders if there are any pending requests */}
+          {/* pending requests card which only renders if there are pending requests */}
           {friendRequests.length > 0 && (
             <div className="settings-card">
               <p className="settings-card-label">Pending Requests</p>
@@ -413,7 +399,7 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
                       <span className="settings-label">{req.name}</span>
                       <p className="settings-sublabel">{req.sport}</p>
                     </div>
-                    {/* accept adds them to friends list, decline just dismisses the request */}
+                    {/* accept adds them to friends list and decline just dismisses the request */}
                     <div className="settings-friend-actions">
                       <button
                         className="settings-pill settings-pill-active"
@@ -448,7 +434,7 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
               />
             </div>
 
-            {/* search results - only shown when there are matches */}
+            {/* search results also only shown when there are matches */}
             {friendSearchResults.length > 0 && (
               <div>
                 <div className="settings-divider" />
@@ -509,11 +495,11 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
           </div>
         </section>
 
-        {/* ── EVENTS ── */}
+        {/* Events*/}
         <section className="settings-section">
           <h2 className="settings-section-title">Events</h2>
 
-          {/* events the user has saved - loaded from events.json for the demo */}
+          {/* events the user has saved which is loaded from events.json */}
           <div className="settings-card">
             <p className="settings-card-label">Your Events ({savedEvents.length})</p>
             {savedEvents.length === 0 && (
@@ -554,7 +540,7 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
               />
             </div>
 
-            {/* sort pills - matches the requirement to sort by popularity and distance */}
+            {/* sort pills that matches the requirement to sort by popularity and distance */}
             <div className="settings-row">
               <span className="settings-label" style={{ fontSize: '13px', color: 'var(--text-sub)' }}>Sort by</span>
               <div className="settings-pill-group">
@@ -609,12 +595,12 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
           </div>
         </section>
 
-        {/* ── PRIVACY & DATA ── */}
+        {/* Privacy and Data */}
         <section className="settings-section">
           <h2 className="settings-section-title">Privacy &amp; Data</h2>
 
           <div className="settings-card">
-            {/* data storage row spans full width since theres no button on the right */}
+            {/* data storage row spans full width */}
             <div className="settings-row settings-row-full">
               <span className="settings-label">Data Storage</span>
               <p className="settings-sublabel settings-sublabel-full">
@@ -628,7 +614,7 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
             </button>
           </div>
 
-          {/* delete account - two step confirmation so it cant be done by accident */}
+          {/* delete account with two step confirmation to avoid misclicks */}
           <div className="settings-card settings-card-danger">
             {!showDeleteConfirm ? (
               <button

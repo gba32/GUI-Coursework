@@ -25,5 +25,14 @@
     "distanceKm": 42.2,
     "participants": 32000,
     "sport": "Running"
+  },
+  {
+    "id": 4,
+    "name": "New York Marathon",
+    "date": "2025-06-12",
+    "location": "New-York Cuty, USA",
+    "distanceKm": 42.2,
+    "participants": 38000,
+    "sport": "Running"
   }
 ]
