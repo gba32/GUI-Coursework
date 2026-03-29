@@ -16,7 +16,8 @@ class NavPath {
 export const PATHS = [
     new NavPath("/", "Home", <HomePage username="GBA32" loggedIn />),
     new NavPath("/weather", "Weather", <WeatherPage />),
-    new NavPath("/settings", "Settings", <SettingsPage/>)
+    new NavPath("/settings", "Settings", <SettingsPage/>),
+    
 ]
 
 /**
