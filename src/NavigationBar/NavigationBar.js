@@ -9,7 +9,7 @@ import { PATHS } from "./NavLinks";
  * Common navbar component for all pages
  * @returns 
  */
-export default function NavigationBar({ title, showBackButton }) {
+export default function NavigationBar({ title, onBackPressed, showBackButton }) {
     var [drawerOpen, setDrawerOpen] = useState(false);
     var backButton = <Button disabled size="large"></Button>;
 
@@ -17,7 +17,7 @@ export default function NavigationBar({ title, showBackButton }) {
 
     if (showBackButton) {
         backButton = (
-            <Button size="large">
+            <Button size="large" onClick={onBackPressed}>
                 <ArrowBack />
             </Button>
         );
@@ -54,6 +54,14 @@ export default function NavigationBar({ title, showBackButton }) {
  */
 function getDrawerLinks() {
     const navigateTo = (path) => { window.location.assign(path) };
-    const buttons = PATHS.map((path) => <Button onClick={() => { navigateTo(path.relativePath) }}>{path.title}</Button>);
+    let buttons = [];
+
+    PATHS.forEach(
+        (path) => {
+            if (path.navBarButton) {
+                buttons.push(<Button onClick={() => { navigateTo(path.relativePath) }}>{path.title}</Button>);
+            }
+        }
+    );
     return <ButtonGroup orientation="vertical" variant="contained" disableElevation>{buttons}</ButtonGroup>;
 }
