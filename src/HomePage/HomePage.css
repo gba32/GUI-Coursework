@@ -39,14 +39,8 @@
 }
 
 .main-inner {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 64rem; /* max-w-5xl */
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 }
-
 @media (min-width: 1024px) {
   .main-inner {
     gap: 2rem;
@@ -55,9 +49,11 @@
 
 /* ─── Shared card base ───────────────────────────────────────── */
 .card {
-  border-radius: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch !important; git branch
+
+  border: 1px solid rgba(255,255,255,0.25) !important;
 }
 
 /* ─── Header card ────────────────────────────────────────────── */
@@ -141,7 +137,7 @@
 /* ─── Main grid ──────────────────────────────────────────────── */
 .main-grid {
   display: grid;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 @media (min-width: 1024px) {
@@ -155,6 +151,7 @@
 .upload-card {
   background-color: rgba(139, 179, 138, 0.6);
   padding: 1rem;
+  
 }
 
 @media (min-width: 1024px) {
@@ -164,10 +161,14 @@
 }
 
 .upload-dropzone {
-  border-radius: 1.75rem;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.1);
-  padding: 2.5rem 1rem;
+  border-radius: 2rem;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.12);
+  padding: 4rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
 }
 
 @media (min-width: 640px) {
@@ -188,11 +189,10 @@
 }
 
 .upload-actions {
-  margin-top: 1.25rem;
+  margin-top: 1.5rem;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
+  justify-content: center;
+  gap: 1.5rem;
 }
 
 @media (min-width: 640px) {
@@ -220,14 +220,11 @@
   gap: 0.5rem;
   border-radius: 9999px;
   background-color: #556e58;
-  padding: 0.75rem 1.5rem;
-  font-size: 0.875rem;
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: none;
-  cursor: pointer;
-  transition: transform 0.15s, background-color 0.15s;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-primary:hover {
@@ -270,8 +267,8 @@
 
 /* ─── Quick-access aside ─────────────────────────────────────── */
 .quick-access-card {
-  background: rgba(255, 255, 255, 0.15);
-  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2rem;
 }
 
 @media (min-width: 1024px) {
@@ -313,9 +310,9 @@
 }
 
 .stat-item {
-  border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.25);
-  padding: 1rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.35);
+  padding: 1.25rem;
 }
 
 .stat-label {
