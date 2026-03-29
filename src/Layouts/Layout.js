@@ -38,3 +38,31 @@ export function Layout() {
     </div>
   );
 }
+
+
+/**
+ * Home page for users without an account.
+ */
+export function GuestHomePage() {
+  return (
+    <div className="app-root">
+      <div className="guest-layout">
+        <div className="card guest-card">
+          <div className="avatar avatar--large">
+            <svg viewBox="0 0 24 24" fill="none" className="avatar-icon avatar-icon--large" stroke="currentColor" strokeWidth="2">
+              <path d="M20 21a8 8 0 1 0-16 0" />
+              <circle cx="12" cy="8" r="4" />
+            </svg>
+          </div>
+          <h1 className="guest-title">Welcome</h1>
+          <p className="guest-desc">Log in or create an account to track your routes, or upload a GPX file directly.</p>
+          <div className="guest-actions">
+            <button className="btn-primary btn-primary--large">Log in</button>
+            <button className="btn-primary btn-primary--large">Sign up</button>
+            <button className="btn-outline btn-primary--large">Upload GPX</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
