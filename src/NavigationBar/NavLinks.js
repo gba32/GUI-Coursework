@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import HomePage from "../HomePage/HomePage";
 import WeatherPage from "../WeatherPage/WeatherPage";
-import GPXWeatherPage from "../GPXWeatherPage/GPXWeatherPage";
+import GPXWeatherMapPage from "../GPXWeatherPage/GPXWeatherPage";
 import DetailsPage from "../DetailsPage/DetailsPage";
 import { Search } from "@mui/icons-material";
 import SearchPage from "../SearchPage/SearchPage";
@@ -20,7 +20,7 @@ class NavPath {
 export const PATHS = [
     new NavPath("/", "Home", <HomePage username="GBA32" loggedIn />, true),
     new NavPath("/weather", "Weather", <WeatherPage />, false),
-    new NavPath("/gpx", "GPX Weather", <GPXWeatherPage/>, false),
+    new NavPath("/gpx", "GPX Weather", <GPXWeatherMapPage/>, false),
     new NavPath("/search", "Location search", <SearchPage/>, true),
     new NavPath("/details", "GPX Details", <DetailsPage/>, true)
 ]

@@ -1,77 +1,34 @@
 import { Box, ThemeProvider, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { API_KEY } from "../KEY_PROVIDER";
 import ListCard from "../ListCard/ListCard";
 import NavigationBar from "../NavigationBar/NavigationBar";
-import "./WeatherPage.css"
 import { APP_THEME } from "../Theme/Theme";
-import { useEffect, useRef, useState } from "react";
-import { API_KEY } from "../KEY_PROVIDER";
-import { useLocation, useNavigate, useParams } from "react-router";
-import { read as readValue, writeOnce } from "../StorageManager/StorageManager";
+import { RenderOptional } from "../Utility/ReactUtil";
+import StorageUtil from "../Utility/StorageUtil";
+import { WeatherUtil } from "../Utility/WeatherUtil";
+import "./WeatherPage.css";
+import ErrorPage from "../ErrorPage/ErrorPage";
 
-export class WeatherInfo {
-    constructor(weatherJSON) {
-    }
-
-    static fetchJSON(url, params) {
-        return fetch(url + "?" + new URLSearchParams(params), { method: "GET" }).then(response => response.json());
-    }
-
-    static fetchForecast3Hour(apiKey, longitude, latitude) {
-        return this.fetchJSON("http://api.openweathermap.org/data/2.5/forecast", { lat: latitude, lon: longitude, appid: apiKey });
-    }
-
-    static fetchForecast1Hour(apiKey, longitude, latitude, count) {
-        return this.fetchJSON("https://pro.openweathermap.org/data/2.5/forecast/hourly", { lat: latitude, lon: longitude, appid: apiKey, cnt: count })
-    }
-
-    // static fetchCurrentDateWeather(apiKey, longitude, latitude) {    
-    //     return this.fetchJSON("https://api.openweathermap.org/data/2.5/weather", {lat: latitude, lon: longitude});
-    // }
-
-    static fetchLocationData(apiKey, cityName, limit) {
-        return this.fetchJSON("http://api.openweathermap.org/geo/1.0/direct", { q: cityName, limit: limit, appid: apiKey });
-    }
-
-
-    static kelvinToCelcius(kelvin) {
-        return kelvin - 272.15;
-    }
-
-    static kelvinToFarenheit(kelvin) {
-        return WeatherInfo.kelvinToCelcius(kelvin) * 1.8 + 32.
-    }
-
-    static parseKelvin(kelvin, converter) {
-        return Math.trunc(converter(parseFloat(kelvin)));
-    }
-
-    static getIconURL(iconId) {
-        return "https://openweathermap.org/img/wn/" + iconId + ".png";
-    }
-
+export default function WeatherPage() {
+    let locationData = StorageUtil.read("location");
+    return locationData === null ? <ErrorPage message={"Failed to load weather information for location"} timeoutSeconds={5} redirectTo="/home" /> : <WeatherPageInternal locationData={JSON.parse(locationData)} />
 }
 
-function updateLocation(newLocation) {
-    if(sessionStorage.getItem("locationSet") !== true) {
-        sessionStorage.setItem("locationSet", true);
-        sessionStorage.setItem("location", )
-    }
-}
-
-export default function WeatherPage({ route }) {
+function WeatherPageInternal({ locationData }) {
     let [currentWeatherJSON, setCurrentWeather] = useState({ data: {}, loaded: false });
     let [dailyWeatherJSON, setDailyWeather] = useState({ data: {}, loaded: false });
     const apiKey = API_KEY;
-    let locationData = JSON.parse(readValue("location"));
     let navigator = useNavigate();
 
     useEffect(() => {
-        WeatherInfo.fetchForecast3Hour(apiKey, locationData["lon"], locationData["lat"]).then(result => {
+        WeatherUtil.fetchForecast3Hour(apiKey, locationData["lon"], locationData["lat"]).then(result => {
             setDailyWeather({ data: result["list"], loaded: true });
         });
 
-        WeatherInfo.fetchForecast1Hour(apiKey, locationData["lon"], locationData["lat"], 6).then(result => {
-            setCurrentWeather({data: result["list"], loaded: true});
+        WeatherUtil.fetchForecast1Hour(apiKey, locationData["lon"], locationData["lat"], 6).then(result => {
+            setCurrentWeather({ data: result["list"], loaded: true });
         })
     }, [])
 
@@ -79,70 +36,101 @@ export default function WeatherPage({ route }) {
         <ThemeProvider theme={APP_THEME}>
             <main>
                 <NavigationBar onBackPressed={() => navigator(-1)} showBackButton title={locationData["name"]}></NavigationBar>
-                <CurrentWeatherCard json={currentWeatherJSON.data[0]} enabled={currentWeatherJSON.loaded} />
-                {/* <WeatherForecastCard json={dailyWeatherJSON.data} enabled={dailyWeatherJSON.loaded} /> */}
-                <WeatherPreview json={currentWeatherJSON.data} enabled={currentWeatherJSON.loaded}/>
+                <RenderOptional enabled={currentWeatherJSON.loaded}>
+                    <CurrentWeatherCard json={currentWeatherJSON.data[0]} enabled={currentWeatherJSON.loaded} />
+                </RenderOptional>
+                <RenderOptional enabled={currentWeatherJSON.loaded}>
+                    <WeatherPreview json={currentWeatherJSON.data} enabled={currentWeatherJSON.loaded} />
+                </RenderOptional>
+                <RenderOptional enabled={dailyWeatherJSON.loaded}>
+                    <WeatherForecastCard json={dailyWeatherJSON.data} enabled={dailyWeatherJSON.loaded} />
+                </RenderOptional>
             </main>
-
         </ThemeProvider>
     );
 }
 
-function CurrentWeatherCard({ json, enabled }) {
-    if (enabled) {
-        const mainJSON = json["main"];
-        const weatherJSON = json["weather"][0];
-        console.log("MAIN", mainJSON);
-        return <section className="currentWeatherCard">
-            <Typography variant="h1">{
-                WeatherInfo.parseKelvin(mainJSON["temp"], WeatherInfo.kelvinToCelcius)
-            }°</Typography>
-            <Typography>Feels like {
-                WeatherInfo.parseKelvin(mainJSON["feels_like"], WeatherInfo.kelvinToCelcius)
-            }°</Typography>
-            <Box component="img" src={WeatherInfo.getIconURL(weatherJSON["icon"])} />
-        </section>
-    }
+function CurrentWeatherCard({ json }) {
+    const mainJSON = json["main"];
+    const weatherJSON = json["weather"][0];
 
-    return null;
+    return <section className="currentWeatherCard">
+        <Typography variant="h1">{
+            WeatherUtil.parseKelvin(mainJSON["temp"], WeatherUtil.kelvinToCelcius)
+        }°</Typography>
+        <Typography>Feels like {
+            WeatherUtil.parseKelvin(mainJSON["feels_like"], WeatherUtil.kelvinToCelcius)
+        }°</Typography>
+        <Box component="img" src={WeatherUtil.getIconURL(weatherJSON["icon"])} />
+    </section>
+}
+
+function WeatherPreview({ json }) {
+    return <ListCard scrollerClassName="horizontalScroller" expanded={true} childPropsList={json} childTemplate={WeatherPreviewCard} />
 }
 
 function WeatherPreviewCard(json) {
     const date = new Date(json["dt"] * 1000);
-    return <Typography>
-        <Typography>
-            {date.getHours()}:{date.getMinutes()}
-        </Typography>
-        <Box component="img" src={"https://openweathermap.org/img/wn/" + json["weather"][0]["icon"] + ".png"} />
-        <Typography>{
-            WeatherInfo.parseKelvin(json["main"]["temp"], WeatherInfo.kelvinToCelcius)
-        }°</Typography>
-    </Typography>
-}
-
-function WeatherPreview({json, enabled}) {
-    return enabled === true ? <ListCard scrollerClassName="horizontalScroller" expanded={true} childPropsList={json} childTemplate={WeatherPreviewCard} ></ListCard> : <div></div>
-}
-
-function WeatherCard(json) {
-    // s -> ms
-    const date = new Date(json["dt"] * 1000);
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const dayIndex = date.getDay();
     return <div>
         <Typography>
-            {days[dayIndex]}
+            {date.getHours()}:{date.getMinutes().toString().padStart(2, "0")}
         </Typography>
         <Box component="img" src={"https://openweathermap.org/img/wn/" + json["weather"][0]["icon"] + ".png"} />
         <Typography>{
-            WeatherInfo.parseKelvin(json["main"]["temp"], WeatherInfo.kelvinToCelcius)
+            WeatherUtil.parseKelvin(json["main"]["temp"], WeatherUtil.kelvinToCelcius)
         }°</Typography>
+    </div>
+}
+
+function WeatherCard(dayJSON) { 
+    // s -> ms
+    const json = dayJSON[0];
+    const date = new Date(json["dt"] * 1000);
+    let high = undefined;
+    let low = undefined;
+
+    dayJSON.forEach((element) => {
+        let temp = WeatherUtil.parseKelvin(element["main"]["temp"], WeatherUtil.kelvinToCelcius);
+        if(high === undefined || high < temp) {
+            high = temp;
+        }
+
+        if (low === undefined || low > temp) {
+            low = temp
+        }
+    });
+
+    return <div>
+        <Typography>
+            {WeatherUtil.getDayString(date.getDay())}
+        </Typography>
+        <Box component="img" src={"https://openweathermap.org/img/wn/" + json["weather"][0]["icon"] + ".png"} />
+        <Typography>{
+            WeatherUtil.parseKelvin(json["main"]["temp"], WeatherUtil.kelvinToCelcius)
+        }°</Typography>
+        <Typography>
+            {low}°|{high}°
+        </Typography>
     </div>;
 
 }
 
-function WeatherForecastCard({ json, enabled }) {
-    return enabled === true ? <ListCard expanded={true} showTitle title={"Weekly weather"} childPropsList={json} childTemplate={WeatherCard} ></ListCard> : <div></div>
+function WeatherForecastCard({ json }) {
+    let days = []
+    let currentDay = 0;
+    const DAY_SECONDS = 24 * 60 * 60;
+    json.forEach((forecastJSON) => {
+        let seconds = parseInt(forecastJSON["dt"]);
+        let day = Math.floor(seconds / DAY_SECONDS);
+        if (day !== currentDay) {
+            days.push([forecastJSON]);
+            currentDay = day;
+        } else {
+            days.at(-1).push(forecastJSON);
+        }
+    });
+
+    return <ListCard expanded={true} showTitle title={"Weekly weather"} childPropsList={days} childTemplate={WeatherCard} />
 }
 
 

@@ -1,12 +1,12 @@
-import { Button, TextField, ThemeProvider, Typography } from "@mui/material";
-import { Link, useNavigate, useNavigation } from "react-router";
+import { TextField, ThemeProvider, Typography } from "@mui/material";
+import { useNavigate } from "react-router";
 import { APP_THEME } from "../Theme/Theme";
-import { WeatherInfo } from "../WeatherPage/WeatherPage";
+import { WeatherUtil } from "../Utility/WeatherUtil";
 import { API_KEY } from "../KEY_PROVIDER";
 import NavigationBar from "../NavigationBar/NavigationBar";
 import ListCard from "../ListCard/ListCard";
 import { useState } from "react";
-import { reset as resetKey, writeOnce } from "../StorageManager/StorageManager";
+import StorageUtil  from "../Utility/StorageUtil";
 
 function LocationCard(data, onClick) {
     return <a href="" onClick={() => onClick(data)}>
@@ -21,15 +21,15 @@ function LocationCard(data, onClick) {
 export default function SearchPage() {
     let navigator = useNavigate();
     let clickHandler = (data) => {
-        resetKey("location");
-        writeOnce("location", JSON.stringify(data));
+        StorageUtil.reset("location");
+        StorageUtil.writeOnce("location", JSON.stringify(data));
         navigator("/weather");
     };
     let [searchResults, setSearchResults] = useState([]);
     const apiKey = API_KEY;
     
     let textChangeHandler = (event) => {
-        WeatherInfo
+        WeatherUtil
             .fetchLocationData(apiKey, event.target.value, 20)
             .then((results) => {
                 setSearchResults(results);

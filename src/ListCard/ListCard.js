@@ -3,11 +3,6 @@ import './ListCard.css'
 import { ArrowDropDown } from '@mui/icons-material'
 import { useState } from 'react'
 
-/**
- * 
- * @param {*} props 
- * @returns 
- */
 function ExpandButton(props) {
     return (<Button variant="contained" className='expandButton' {...props}>
         <ArrowDropDown />
@@ -49,18 +44,4 @@ export default function ListCard({
             {showExpand === true && <ExpandButton onClick={onExpand} />}
         </section>
     )
-}
-
-/**
- * 
- * @param {*} param0 
- * @returns 
- */
-export function ListCardItem({ title, routeDetails }) {
-    return (
-        <div className='listItem'>
-            <h6>{title}</h6>
-            <p>Description</p>
-        </div>
-    );
 }
