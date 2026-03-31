@@ -6,6 +6,7 @@ import LoginPage from "../Login/Login";
 import RegisterPage from "../Register/RegisterPage";
 import './NavigationBar.css';
 
+
 // Class for storing Navigation url paths
 class NavPath {
     constructor(relativePath, title, page) {
@@ -14,10 +15,16 @@ class NavPath {
         this.page = page;
     }
 }
+const userAccount = JSON.parse(localStorage.getItem("loggedInUser"));
+let uname = userAccount?.name ?? "Guest";
+let loggedIn = !!userAccount;
+console.log(loggedIn);
+
+
 
 // Object storing all current Navigation paths
 export const PATHS = [
-    new NavPath("/", "Home", <HomePage username="GBA32" loggedIn />),
+    new NavPath("/", "Home", <HomePage username= {uname} loggedIn = {loggedIn} />),
     new NavPath("/weather", "Weather", <WeatherPage />),
     new NavPath("/settings", "Settings", <SettingsPage/>),
     new NavPath("/login", "Login", <LoginPage/>),
@@ -30,9 +37,17 @@ export const PATHS = [
  * @returns 
  */
 export default function MainRouter() {
-    var routes = PATHS.map((path) => {
-        return <Route path={path.relativePath} element={path.page} />
-    });
+    // var routes = PATHS.map((path) => {
+    //     return <Route path={path.relativePath} element={path.page} />
+    // });
+
+      const routes = [
+        <Route path="/" element={<HomePage username={uname} loggedIn={loggedIn} />} />,
+        <Route path="/weather" element={<WeatherPage />} />,
+        <Route path="/settings" element={<SettingsPage />} />,
+        <Route path="/login" element={<LoginPage />} />,
+        <Route path="/register" element={<RegisterPage />} />
+      ];
 
     return (
 

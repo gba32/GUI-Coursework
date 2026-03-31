@@ -1,13 +1,46 @@
 import './Login.css';
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useState } from "react";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = () => {
+    // basic validation
+    if (!email || !password) {
+      setError("Please enter email and password");
+      return;
+    }
+
+    // WE NEED THE PIPE INCASE THEY HAVENT REGISTERED YET
+    const users = JSON.parse(localStorage.getItem("users")) || []; 
+
+    const foundUser = users.find(
+      (user) => user.email === email && user.password === password
+    );
+
+    if (!foundUser) {
+      setError("Invalid email or password");
+      return;
+    }
+
+    // store logged-in user
+    localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+
+
+    // redirect to home
+    navigate("/");
+  };
+
   return (
     <>
       <main className="app-main">
         <div className="main-inner login-section">
 
-          {/* Header */}
           <section className="card header-card">
             <div className="header-inner">
               <div className="avatar">
@@ -33,6 +66,8 @@ export default function LoginPage() {
                 type="email"
                 placeholder="Email"
                 className="login-input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
 
               {/* Password */}
@@ -40,12 +75,21 @@ export default function LoginPage() {
                 type="password"
                 placeholder="Password"
                 className="login-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
 
               {/* Login button */}
-              <button className="btn-primary login-btn">
+              <button className="btn-primary login-btn" onClick={handleLogin}>
                 Login
               </button>
+
+              {/* Error message */}
+              {error && (
+                <p style={{ color: "red", textAlign: "center" }}>
+                  {error}
+                </p>
+              )}
 
               {/* Extra actions */}
               <div className="login-extra">
