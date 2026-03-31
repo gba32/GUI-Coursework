@@ -16,6 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import './GPXWeatherPage.css';
 import dayjs from "dayjs";
 import notFoundIcon from "../NotFound.png"
+import Track from "gpx-parser-builder/src/track";
 
 export default function GPXWeatherPage() {
     const gpxData = StorageUtil.read("GPX_DATA");
@@ -110,8 +111,9 @@ function GPXWeatherMapPage({ gpx }) {
                 (track, trackIndex) => {
                     let distances = GPXUtil.getCumalativeDistance(gpx.trk[trackIndex]);
                     // 4 m/s pace
+                    console.log("JSON:", track);
                     let trackMarkers = track.map((point) => {
-                        let json = point["result"]["json"];
+                        let json = point["result"]["json"].response;
                         let etaDate = startDate.add(distances[point.pointIndex] / scaledPace, 's');
                         let weatherIndex = GPXUtil.getWeatherIndex(json["list"], etaDate.valueOf(), 3 * 60 * 60);
                         let validIndex = weatherIndex !== null;
@@ -161,7 +163,6 @@ function GPXWeatherMapPage({ gpx }) {
 
     return (
         <ThemeProvider theme={APP_THEME}>
-            <NavigationBar title={gpx.metadata.name} />
             <div className="mapContainer" >
                 <GPXWeatherMap center={mapDetails.position} zoom={13} scrollWheelZoom={false}>
                     <Polyline pathOptions={options} positions={mapDetails.segmentLines} />

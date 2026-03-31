@@ -40,7 +40,6 @@ export default function SearchPage() {
 
     return (
         <ThemeProvider theme={APP_THEME}>
-            <NavigationBar title="Location search"/>
             <TextField onChange={textChangeHandler}></TextField>
             <ListCard title="Results" expanded childPropsList={searchResults} childTemplate={(params) => LocationCard(params, clickHandler)}/>
 

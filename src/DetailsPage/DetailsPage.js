@@ -42,7 +42,6 @@ function DetailsPageInternal({ gpx }) {
 
     return (
         <ThemeProvider theme={APP_THEME}>
-            <NavigationBar title="Details" />
             <article id="preview">
 
                 <sections className="detailsCard">

@@ -122,11 +122,10 @@ export default class GPXUtil {
                                 if (segment.trkpt.length === 0) {
                                     return [];
                                 }
-
                                 let initialIndex = pointIndex;
                                 let pointPromises = [fetchWeatherAtPoint(apiKey, segment.trkpt[0]).then((result) => { return { result: result, pointIndex: initialIndex } })];
                                 let currentAnchor = segment.trkpt[0];
-
+                                
                                 for (let i = 1; i < segment.trkpt.length; i++) {
                                     let point = segment.trkpt[i];
                                     let d = GPXUtil.distance([parseFloat(currentAnchor.$.lat), parseFloat(currentAnchor.$.lon)], [parseFloat(point.$.lat), parseFloat(point.$.lon)]);
@@ -134,7 +133,7 @@ export default class GPXUtil {
                                         let index = pointIndex + i;
                                         pointPromises.push(
                                             fetchWeatherAtPoint(apiKey, point).then((result) => {
-                                                return { result: result, pointIndex: index }
+                                                return { result: result.response, pointIndex: index }
                                             })
                                         );
                                         currentAnchor = point;
@@ -217,7 +216,8 @@ export default class GPXUtil {
 
 function fetchWeatherAtPoint(apiKey, point) {
     return WeatherUtil.fetchForecast3Hour(apiKey, point.$.lon, point.$.lat).then(
-        (json) => {
+        ({status, response}) => {
+            let json = response;
             return { lon: point.$.lon, lat: point.$.lat, json: json };
         }
     )

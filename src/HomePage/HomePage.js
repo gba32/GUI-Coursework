@@ -1,4 +1,8 @@
+import { Typography } from '@mui/material';
 import './HomePage.css';
+import { useNavigate } from 'react-router';
+import StorageUtil from '../Utility/StorageUtil';
+import { gpxData } from '../GPXroute/sampleGPX2';
 
 const previousRoutes = [
   { name: 'London Marathon Course', distance: '42.2km', elevation: '127m' },
@@ -21,6 +25,7 @@ export default function HomePage({ loggedIn, username }) {
  * @param {string} username
  */
 export function AccountHomePage({ username }) {
+  let navigator = useNavigate();
   return (
       <>
         {/* Main content */}
@@ -62,7 +67,12 @@ export function AccountHomePage({ username }) {
                 </div>
 
                 <div className="upload-actions">
-                  <button className="btn-confirm">
+                  <button className="btn-confirm" onClick={() => {
+                    console.log("clicked!");
+                      StorageUtil.reset("GPX_DATA");
+                      StorageUtil.writeOnce("GPX_DATA", gpxData);
+                      navigator("/details");
+                  }}>
                     <svg viewBox="0 0 24 24" fill="none" className="btn-icon" stroke="currentColor" strokeWidth="2.5">
                       <path d="M5 13l4 4L19 7" />
                     </svg>

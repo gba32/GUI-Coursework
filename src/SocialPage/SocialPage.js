@@ -135,7 +135,7 @@ export default function SocialPage({ onBack, onMenuOpen }) {
     <div className="social-page">
 
       <ThemeProvider theme={APP_THEME}>
-        <NavigationBar title = "Settings" />
+        <NavigationBar title = "Social" />
       </ThemeProvider>
       
 
