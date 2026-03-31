@@ -310,11 +310,11 @@
 }
 
 /* friend action buttons sit side by side */
-.settings-friend-actions {
+/* .settings-friend-actions {
   display: flex;
   gap: 6px;
   flex-shrink: 0;
-}
+} */
 
 /* pace input */
 .settings-pace-input-group {
