@@ -11,6 +11,7 @@ import WeatherPage from "../WeatherPage/WeatherPage";
 import './NavigationBar.css';
 import { DrawerLinks } from "./NavigationBar";
 
+
 // Class for storing Navigation url paths
 class NavPath {
     constructor(relativePath, title, page, navBarButton) {
@@ -20,6 +21,12 @@ class NavPath {
         this.navBarButton = navBarButton;
     }
 }
+const userAccount = JSON.parse(localStorage.getItem("loggedInUser"));
+let uname = userAccount?.name ?? "Guest";
+let loggedIn = !!userAccount;
+console.log(loggedIn);
+
+
 
 // Object storing all current Navigation paths
 export const PATHS = [
