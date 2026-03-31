@@ -10,6 +10,9 @@
     width: 100%;
     font-weight: bold;
     align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .navbar.title {
