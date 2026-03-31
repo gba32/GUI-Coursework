@@ -79,8 +79,13 @@ export default class GPXUtil {
      */
     static getWeatherIndex(json, arrivalTime, differenceUpperboundSeconds) {
         let timeSeconds = arrivalTime / 1000;
-        if (json.length === 0 || timeSeconds < parseFloat(json[0]["dt"])) {
+        let initialDT = parseFloat(json[0]["dt"]);
+        if (json.length === 0) {
             return null;
+        }
+
+        if(arrivalTime < initialDT) {
+            return initialDT - arrivalTime > differenceUpperboundSeconds ? null : 0;
         }
 
         let difference = timeSeconds - parseFloat(json[json.length - 1]["dt"]);
