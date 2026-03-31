@@ -5,6 +5,7 @@ import SettingsPage from '../SettingsPage/SettingsPage';
 import LoginPage from "../Login/Login";
 import RegisterPage from "../Register/RegisterPage";
 import './NavigationBar.css';
+import { useNavigate } from 'react-router';
 
 
 // Class for storing Navigation url paths
@@ -40,7 +41,7 @@ export default function MainRouter() {
     // var routes = PATHS.map((path) => {
     //     return <Route path={path.relativePath} element={path.page} />
     // });
-
+      const navigate = useNavigate();
       const routes = [
         <Route path="/" element={<HomePage username={uname} loggedIn={loggedIn} />} />,
         <Route path="/weather" element={<WeatherPage />} />,
@@ -72,9 +73,21 @@ export default function MainRouter() {
             <h2 className="nav-title">Navigation</h2>
           </div>
           <div className="nav-links">
-            <button className="nav-btn nav-btn--active">GPX Upload</button>
-            <button className="nav-btn">Weather</button>
-            <button className="nav-btn">Account</button>
+            <button 
+              onClick={() => navigate("/")}
+              className="nav-btn nav-btn--active"
+              >GPX Upload
+            </button>
+            <button 
+              onClick={() => navigate("/")}
+              className="nav-btn">
+              Weather
+              </button>
+            <button 
+              onClick={() => navigate("/")}
+              className="nav-btn">
+              Account
+            </button>
           </div>
           <div className="nav-contact">
             Contact info:
