@@ -1,0 +1,6 @@
+[
+  { "id": 1, "name": "Mark Cavendish", "sport": "Cyclist", "routes": 4 },
+  { "id": 2, "name": "Tadej Pogacar", "sport": "Cyclist", "routes": 2 },
+  { "id": 3, "name": "Eliud Kipchoge", "sport": "Runner", "routes": 6 },
+  { "id": 4, "name": "Kilian Jornet", "sport": "Runner", "routes": 1 }
+]

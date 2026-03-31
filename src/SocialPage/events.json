@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "London Marathon 2025",
+    "date": "2025-04-27",
+    "location": "London, UK",
+    "distanceKm": 42,
+    "participants": 50000,
+    "sport": "Running"
+  },
+  {
+    "id": 2,
+    "name": "London to Paris",
+    "date": "2025-05-25",
+    "location": "London, UK",
+    "distanceKm": 320,
+    "participants": 25000,
+    "sport": "Cycling"
+  },
+  {
+    "id": 3,
+    "name": "Boston Marathon",
+    "date": "2025-05-18",
+    "location": "Boston, USA",
+    "distanceKm": 42.2,
+    "participants": 32000,
+    "sport": "Running"
+  },
+  {
+    "id": 4,
+    "name": "New York Marathon",
+    "date": "2025-06-12",
+    "location": "New-York Cuty, USA",
+    "distanceKm": 42.2,
+    "participants": 38000,
+    "sport": "Running"
+  }
+]

@@ -4,6 +4,8 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import MainRouter from './NavigationBar/NavLinks';
 import SettingsPage from './SettingsPage/SettingsPage';
+import SocialPage from './SocialPage/SocialPage';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

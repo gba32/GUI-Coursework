@@ -22,50 +22,6 @@
   flex-direction: column;
 }
 
-/* topbar */
-.settings-topbar {
-  position: sticky;             /* stay fixed at the top */
-  top: 0;
-  z-index: 100;
-  height: var(--topbar-height);
-  background-color: var(--primary);
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  box-shadow: 0 4px 4px rgba(0,0,0,0.25);
-}
-
-.settings-topbar-back {              /* back arrow, page title and menu button */
-  background: none;
-  border: none;
-  color: var(--white);
-  font-size: 22px;
-  cursor: pointer;
-  padding: 8px 12px 8px 0;
-}
-
-.settings-topbar-title {
-  flex: 1;
-  text-align: center;
-  color: var(--white);
-  font-size: 24px;
-  font-weight: 700;
-}
-
-/* hamburger menu button, mirrors the back button on the other side */
-.settings-topbar-menu {
-  background: none;
-  border: none;
-  color: var(--white);
-  font-size: 22px;
-  cursor: pointer;
-  padding: 8px 0 8px 12px;
-}
-
-.settings-topbar-menu:hover,
-.settings-topbar-back:hover {
-  opacity: 0.75;
-}
 
 .settings-body {
   flex: 1;                     /* fill the remaining vertical space under the topbar */

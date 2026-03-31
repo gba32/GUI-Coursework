@@ -151,6 +151,10 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
     setFriends(prev => prev.filter(f => f.id !== friendId));
   }
 
+
+
+
+
 //events Method
   //filter and sort events for the search and hide events that are already saved by the user
   const filteredEvents = allEvents
@@ -188,6 +192,7 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
 //Render of the page
   return (
     <div className="settings-page">
+
       <ThemeProvider theme={APP_THEME}>
         <NavigationBar title = "Settings" />
       </ThemeProvider>
@@ -268,7 +273,7 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
             )}
           </div>
 
-          {/* sync toggle - flips between true and false on each tap */}
+          {/* sync toggle that flips between true and false on each tap */}
           <div className="settings-card">
             <div className="settings-row">
               <div>
@@ -594,6 +599,9 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
             )}
           </div>
         </section>
+
+
+
 
         {/* Privacy and Data */}
         <section className="settings-section">
