@@ -2,14 +2,10 @@ import GPX from "gpx-parser-builder";
 import { WeatherUtil } from "./WeatherUtil";
 
 class GPXWeatherResult {
-    constructor(waypointWeatherJSON, trackWeatherJSON, trackIndices) {
+    constructor(waypointWeatherJSON, trackWeatherJSON) {
         this.waypointWeatherJSON = waypointWeatherJSON;
         this.trackWeatherJSON = trackWeatherJSON;
-        this.trackIndices = trackIndices;
     }
-
-
-
 }
 
 export default class GPXUtil {
@@ -91,7 +87,6 @@ export default class GPXUtil {
         let difference = timeSeconds - parseFloat(json[json.length - 1]["dt"]);
         let i = 1;
         while (i <= json.length && parseFloat(json[i - 1]["dt"]) < timeSeconds) {
-            console.log(timeSeconds, json[i - 1]["dt"]);
             i++;
         }
 
@@ -123,7 +118,8 @@ export default class GPXUtil {
                                     return [];
                                 }
                                 let initialIndex = pointIndex;
-                                let pointPromises = [fetchWeatherAtPoint(apiKey, segment.trkpt[0]).then((result) => { return { result: result, pointIndex: initialIndex } })];
+                                let pointPromises = [fetchWeatherAtPoint(apiKey, segment.trkpt[0]).then((result) => {
+                                     return { result: result, pointIndex: initialIndex } })];
                                 let currentAnchor = segment.trkpt[0];
                                 
                                 for (let i = 1; i < segment.trkpt.length; i++) {
@@ -146,13 +142,17 @@ export default class GPXUtil {
                     )
                 }
             )
-        ) : new Promise(() => { });
+        ) : Promise.resolve();
 
+        console.log(gpx.wpt);
         let waypoints = gpx.wpt !== undefined ? Promise.all(gpx.wpt.map(
             (point) => WeatherUtil.fetchForecast3Hour(apiKey, point.$.lon, point.$.lat)
-        )) : new Promise(() => { });
+        )) : Promise.resolve();
 
-        return Promise.all([waypoints, tracks]).then((data) => new GPXWeatherResult(data[0], data[1][0]));
+        let promises = Promise.all([tracks]);
+        return promises.then((data) => {
+            return new GPXWeatherResult(null, data[0][0])
+        });
     }
 
     /**

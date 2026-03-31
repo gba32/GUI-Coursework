@@ -44,11 +44,11 @@ function DetailsPageInternal({ gpx }) {
         <ThemeProvider theme={APP_THEME}>
             <article id="preview">
 
-                <sections className="detailsCard">
+                <section className="detailsCard">
                     <div className='title'> <Typography variant='h5'> <b> {gpx.metadata.name} </b> </Typography> </div>
                     <Typography>Total distance: {lengthText}</Typography>
                     <Typography>Total elevation: {elevationText}</Typography>
-                </sections>
+                </section>
 
 
                 <section className="detailsCard">

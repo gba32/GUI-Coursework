@@ -82,6 +82,7 @@ function GPXWeatherMapPage({ gpx }) {
         if (!loaded) {
             GPXUtil.fetchGPXWeather(apiKey, gpx)
                 .then(gpxWeather => {
+                    console.log("LOADED");
                     setTrackWeatherJSON(gpxWeather.trackWeatherJSON);
                     setLoaded(true);
                 })
