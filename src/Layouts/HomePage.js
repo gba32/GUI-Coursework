@@ -22,7 +22,9 @@ export default function HomePage({ loggedIn, username }) {
  */
 export function AccountHomePage({ username }) {
   return (
-      <>
+    <div className="app-root">
+      <div className="app-layout">
+
         {/* Main content */}
         <main className="app-main">
           <div className="main-inner">
@@ -128,7 +130,7 @@ export function AccountHomePage({ username }) {
         </main>
 
         {/* Navigation */}
-        {/* <nav className="app-nav">
+        <nav className="app-nav">
           <div className="nav-heading">
             <h2 className="nav-title">Navigation</h2>
           </div>
@@ -142,12 +144,12 @@ export function AccountHomePage({ username }) {
             <p>Email: @</p>
             <p>Mobile: +44</p>
           </div>
-        </nav> */}
+        </nav>
 
-      </>
+      </div>
+    </div>
   );
 }
-
 
 /**
  * Home page for users without an account.
@@ -172,31 +174,6 @@ export function GuestHomePage() {
           </div>
         </div>
       </div>
-
-              {/* Navigation */}
-        {/* <nav className="app-nav">
-          <div className="nav-heading">
-            <h2 className="nav-title">Navigation</h2>
-          </div>
-          <div className="nav-links">
-            <button className="nav-btn nav-btn--active">GPX Upload</button>
-            <button className="nav-btn">Weather</button>
-            <button className="nav-btn">Account</button>
-          </div>
-          <div className="nav-contact">
-            Contact info:
-            <p>Email: @</p>
-            <p>Mobile: +44</p>
-          </div>
-        </nav> */}
     </div>
-
-    
   );
-}
-
-function HistoryCard(gpx) {
-    return <article>
-        <Typography variant='h4'>{gpx.metadata.name}</Typography>
-    </article>
 }

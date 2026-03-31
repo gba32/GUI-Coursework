@@ -5,6 +5,9 @@ import GPXWeatherMapPage from "../GPXWeatherPage/GPXWeatherPage";
 import DetailsPage from "../DetailsPage/DetailsPage";
 import SearchPage from "../SearchPage/SearchPage";
 import SettingsPage from '../SettingsPage/SettingsPage';
+import LoginPage from "../Login/Login";
+import RegisterPage from "../Register/RegisterPage";
+import './NavigationBar.css';
 import SocialPage from '../SocialPage/SocialPage';
 
 // Class for storing Navigation url paths
@@ -26,6 +29,8 @@ export const PATHS = [
     new NavPath("/details", "GPX Details", <DetailsPage/>, true),
     new NavPath("/social", "Social", <SocialPage/>, true),
     new NavPath("/settings", "Settings", <SettingsPage/>, true),
+    new NavPath("/login", "Login", <LoginPage/>, true),
+    new NavPath("/register", "Register", <RegisterPage/>, true) 
 ]
 
 /**
@@ -38,10 +43,40 @@ export default function MainRouter() {
     });
 
     return (
-        <BrowserRouter>
-            <Routes>
-                {routes}
-            </Routes>
-        </BrowserRouter>
+
+    <div className="app-root">
+      <div className="app-layout">
+
+        {/* Main content  would be within the main div*/}
+        <main className="app-main">
+          <div className="main-inner">
+                <BrowserRouter>
+                    <Routes>
+                        {routes}
+                    </Routes>
+                </BrowserRouter>
+          </div>
+        </main>
+
+        {/* Navigation */}
+
+        <nav className="app-nav">
+          <div className="nav-heading">
+            <h2 className="nav-title">Navigation</h2>
+          </div>
+          <div className="nav-links">
+            <button className="nav-btn nav-btn--active">GPX Upload</button>
+            <button className="nav-btn">Weather</button>
+            <button className="nav-btn">Account</button>
+          </div>
+          <div className="nav-contact">
+            Contact info:
+            <p>Email: @</p>
+            <p>Mobile: +44</p>
+          </div>
+        </nav>
+
+      </div>
+    </div>      
     );
 }
