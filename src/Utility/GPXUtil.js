@@ -84,19 +84,19 @@ export default class GPXUtil {
             return null;
         }
 
-        if(arrivalTime < initialDT) {
+        if (arrivalTime < initialDT) {
             return initialDT - arrivalTime > differenceUpperboundSeconds ? null : 0;
         }
 
         let difference = timeSeconds - parseFloat(json[json.length - 1]["dt"]);
         let i = 1;
         while (i <= json.length && parseFloat(json[i - 1]["dt"]) < timeSeconds) {
-            console.log(timeSeconds, json[i-1]["dt"]);
+            console.log(timeSeconds, json[i - 1]["dt"]);
             i++;
         }
 
         return i > json.length
-            ? (difference > differenceUpperboundSeconds ? null: json.length - 1)
+            ? (difference > differenceUpperboundSeconds ? null : json.length - 1)
             : i - 1;
     }
 
@@ -124,7 +124,7 @@ export default class GPXUtil {
                                 }
 
                                 let initialIndex = pointIndex;
-                                let pointPromises = [fetchWeatherAtPoint(apiKey, segment.trkpt[0]).then((result) => { return { result: result,  pointIndex: initialIndex} })];
+                                let pointPromises = [fetchWeatherAtPoint(apiKey, segment.trkpt[0]).then((result) => { return { result: result, pointIndex: initialIndex } })];
                                 let currentAnchor = segment.trkpt[0];
 
                                 for (let i = 1; i < segment.trkpt.length; i++) {
@@ -133,8 +133,8 @@ export default class GPXUtil {
                                     if (d > distanceThreshold) {
                                         let index = pointIndex + i;
                                         pointPromises.push(
-                                            fetchWeatherAtPoint(apiKey, point).then((result) => { 
-                                                return { result: result,  pointIndex: index} 
+                                            fetchWeatherAtPoint(apiKey, point).then((result) => {
+                                                return { result: result, pointIndex: index }
                                             })
                                         );
                                         currentAnchor = point;
@@ -185,6 +185,29 @@ export default class GPXUtil {
 
         const h_theta = s2_lat + (1.0 - s2_lat - sm2_lat) * s2_lon;
         return 2.0 * Math.asin(Math.sqrt(h_theta)) * EARTH_RADIUS_M;
+    }
+
+
+    /**
+     * Calculates the total elevation for a track 
+     * @param {*} track 
+     */
+    static calculateElevation(gpx) {
+        let sum = 0;
+
+        gpx.trk.forEach((track) => {
+            let flattened = flattenTrack(track);
+            for (let i = 1; i < flattened.length; i++) {
+                let p1 = flattened[i - 1];
+                let p2 = flattened[i];
+
+                if (p2["ele"] > p1["ele"]) {
+                    sum += parseFloat(p2["ele"]) - parseFloat(p1["ele"]);
+                }
+            }
+        });
+
+        return sum;
     }
 
 }
