@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material';
-import './HomePage.css';
 import { useNavigate } from 'react-router';
-import StorageUtil from '../Utility/StorageUtil';
 import { gpxData } from '../GPXroute/sampleGPX2';
+import StorageUtil from '../Utility/StorageUtil';
+import './HomePage.css';
 
 const previousRoutes = [
   { name: 'London Marathon Course', distance: '42.2km', elevation: '127m' },
@@ -68,7 +68,6 @@ export function AccountHomePage({ username }) {
 
                 <div className="upload-actions">
                   <button className="btn-confirm" onClick={() => {
-                    console.log("clicked!");
                       StorageUtil.reset("GPX_DATA");
                       StorageUtil.writeOnce("GPX_DATA", gpxData);
                       navigator("/details");

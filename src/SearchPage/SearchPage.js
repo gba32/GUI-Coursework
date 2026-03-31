@@ -1,13 +1,19 @@
 import { TextField, ThemeProvider, Typography } from "@mui/material";
-import { useNavigate } from "react-router";
-import { APP_THEME } from "../Theme/Theme";
-import { WeatherUtil } from "../Utility/WeatherUtil";
-import { API_KEY } from "../KEY_PROVIDER";
-import NavigationBar from "../NavigationBar/NavigationBar";
-import ListCard from "../ListCard/ListCard";
 import { useState } from "react";
-import StorageUtil  from "../Utility/StorageUtil";
+import { useNavigate } from "react-router";
+import { API_KEY } from "../KEY_PROVIDER";
+import ListCard from "../ListCard/ListCard";
+import { APP_THEME } from "../Theme/Theme";
+import StorageUtil from "../Utility/StorageUtil";
+import { WeatherUtil } from "../Utility/WeatherUtil";
 
+/**
+ * Card template for location results
+ * 
+ * @param {*} data geocoding data for a given location
+ * @param {*} onClick a callback function to perform when the card is pressed
+ * @returns 
+ */
 function LocationCard(data, onClick) {
     return <a href="" onClick={() => onClick(data)}>
         <div>
@@ -18,7 +24,12 @@ function LocationCard(data, onClick) {
     </a>
 }
 
+/**
+ * A location search page which redirects to the weather page.
+ */
 export default function SearchPage() {
+    const apiKey = API_KEY;
+    const RESULT_LIMIT = 20;
     let navigator = useNavigate();
     let clickHandler = (data) => {
         StorageUtil.reset("location");
@@ -26,13 +37,12 @@ export default function SearchPage() {
         navigator("/weather");
     };
     let [searchResults, setSearchResults] = useState([]);
-    const apiKey = API_KEY;
     
+    // Fetch geocoding data
     let textChangeHandler = (event) => {
         WeatherUtil
-            .fetchLocationData(apiKey, event.target.value, 20)
+            .fetchLocationData(apiKey, event.target.value, RESULT_LIMIT)
             .then((results) => {
-                console.log(results);
                 setSearchResults(results.status == 200 ? results.response : []);
             });
     }
@@ -42,7 +52,6 @@ export default function SearchPage() {
         <ThemeProvider theme={APP_THEME}>
             <TextField onChange={textChangeHandler}></TextField>
             <ListCard title="Results" expanded childPropsList={searchResults} childTemplate={(params) => LocationCard(params, clickHandler)}/>
-
         </ThemeProvider>
     )
 

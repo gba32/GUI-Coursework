@@ -1,14 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router";
-import HomePage from "../HomePage/HomePage";
-import WeatherPage from "../WeatherPage/WeatherPage";
-import GPXWeatherMapPage from "../GPXWeatherPage/GPXWeatherPage";
 import DetailsPage from "../DetailsPage/DetailsPage";
-import SearchPage from "../SearchPage/SearchPage";
-import SettingsPage from '../SettingsPage/SettingsPage';
+import GPXWeatherMapPage from "../GPXWeatherPage/GPXWeatherPage";
+import HomePage from "../HomePage/HomePage";
 import LoginPage from "../Login/Login";
 import RegisterPage from "../Register/RegisterPage";
-import './NavigationBar.css';
+import SearchPage from "../SearchPage/SearchPage";
+import SettingsPage from '../SettingsPage/SettingsPage';
 import SocialPage from '../SocialPage/SocialPage';
+import WeatherPage from "../WeatherPage/WeatherPage";
+import './NavigationBar.css';
 
 // Class for storing Navigation url paths
 class NavPath {
@@ -34,8 +34,7 @@ export const PATHS = [
 ]
 
 /**
- * 
- * @returns 
+ * Router element for URL based page navigation.
  */
 export default function MainRouter() {
     var routes = PATHS.map((path) => {

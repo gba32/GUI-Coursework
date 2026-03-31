@@ -1,24 +1,38 @@
-import { Button, Typography } from '@mui/material'
-import './ListCard.css'
-import { ArrowDropDown } from '@mui/icons-material'
-import { useState } from 'react'
+import { ArrowDropDown } from '@mui/icons-material';
+import { Button, ButtonProps, Typography } from '@mui/material';
+import './ListCard.css';
 
+
+/**
+ * 
+ * @param {ButtonProps} props props to pass to the button element.
+ * @returns 
+ */
 function ExpandButton(props) {
-    return (<Button letiant="contained" className='expandButton' {...props}>
+    return (<Button variant="contained" className='expandButton' {...props}>
         <ArrowDropDown />
     </Button>);
 }
 
 /**
+ * A generic element for displaying a list of item
  * 
- * @param {*} param0 
+ * @param {*} props
+ * @param {string} props.title the title of the card
+ * @param {boolean} showTitle a flag deciding whether the title is shown
+ * @param {*} childPropsList a list of items to pass to the given template function
+ * @param {*} childTemplate  a template for the list items to be displayed
+ * @param {string} scrollerClassName the className to pass to the list scroller
+ * @param {boolean} expanded a flag deciding whether the scroller's dimensions are limited
+ * @param {*} onExpand a callback function to be called when the card expands
+ * @param {*} showExpand a flag deciding whether the expand button is shown
  * @returns 
  */
 export default function ListCard({
     title,
     showTitle,
     childPropsList,
-    childTemplate: childTemplateFunc,
+    childTemplate,
     scrollerClassName = 'scroller',
     expanded = false,
     onExpand,
@@ -30,7 +44,7 @@ export default function ListCard({
     let children = [];
     if (childPropsList) {
         children = childPropsList.map((element) =>
-            (<li className='item'> {childTemplateFunc(element)} </li>)
+            (<li className='item'> {childTemplate(element)} </li>)
         )
     }
     let childContainer = <article className={scrollerClassName + (expanded ? ' expanded' : '')}>{children}</article>;

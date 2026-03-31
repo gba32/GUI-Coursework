@@ -1,18 +1,18 @@
 //Imports
 
-import React, { useState } from 'react';              //import react and usecase to store and update onscreen values
-import './SettingsPage.css';
+import { ThemeProvider } from '@mui/material';
+import { useState } from 'react'; //import react and usecase to store and update onscreen values
 import NavigationBar from '../NavigationBar/NavigationBar';
 import { APP_THEME } from '../Theme/Theme';
-import ListCard, {ListCardItem} from '../ListCard/ListCard';
-import { ThemeProvider } from '@mui/material';
+import StorageUtil from '../Utility/StorageUtil';
+import './SettingsPage.css';
 
 
 // unit choices for the preferences section
 const unitOptions = {
   temperature: ['°C', '°F'],
-  distance: ['km', 'miles'],
-  windSpeed: ['km/h', 'mph', 'm/s'],
+  distance: ['km', 'miles'],  
+  windSpeed: ['m/s', 'mph','km/h' ],
 };
 
 export default function SettingsPage({ onBack, onMenuOpen }) {
@@ -80,11 +80,6 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
     alert('Account deletion requested. All your data including saved GPX routes has been scheduled for removal.');
     setShowDeleteConfirm(false);
   }
-
-
-
-
-
 
 //Render of the page
   return (
@@ -203,7 +198,11 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
                   <button
                     key={u}
                     className={`settings-pill ${tempUnit === u ? 'settings-pill-active' : ''}`}
-                    onClick={() => setTempUnit(u)}
+                    onClick={() => {
+                      StorageUtil.reset("TEMP_UNIT");
+                      StorageUtil.writeOnce("TEMP_UNIT", unitOptions.temperature.indexOf(u));
+                      setTempUnit(u)
+                    }}
                   >
                     {u}
                   </button>
@@ -218,7 +217,11 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
                   <button
                     key={u}
                     className={`settings-pill ${distUnit === u ? 'settings-pill-active' : ''}`}
-                    onClick={() => setDistUnit(u)}
+                    onClick={() => {
+                      StorageUtil.reset("DIST_UNIT");
+                      StorageUtil.writeOnce("DIST_UNIT", unitOptions.distance.indexOf(u));
+                      setDistUnit(u)
+                    }}
                   >
                     {u}
                   </button>
@@ -233,7 +236,11 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
                   <button
                     key={u}
                     className={`settings-pill ${windUnit === u ? 'settings-pill-active' : ''}`}
-                    onClick={() => setWindUnit(u)}
+                    onClick={() => {
+                      StorageUtil.reset("WIND_UNIT");
+                      StorageUtil.writeOnce("WIND_UNIT", unitOptions.windSpeed.indexOf(u));
+                      setWindUnit(u)
+                    }}
                   >
                     {u}
                   </button>

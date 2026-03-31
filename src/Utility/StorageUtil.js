@@ -3,9 +3,9 @@ export default class StorageUtil {
      * Writes a string to a function only on the first invocation, or first invocation after reset
      */
     static writeOnce(key, value) {
-        if (sessionStorage.getItem(key + "_set") === null) {
-            sessionStorage.setItem(key + "_set", "");
-            sessionStorage.setItem(key, value);
+        if (localStorage.getItem(key + "_set") === null) {
+            localStorage.setItem(key + "_set", "");
+            localStorage.setItem(key, value);
         }
     }
 
@@ -14,7 +14,7 @@ export default class StorageUtil {
      * @returns The session value for the given key, or null if it does not exist
      */
     static read(key) {
-        return sessionStorage.getItem(key);
+        return localStorage.getItem(key);
     }
 
     /**
@@ -22,6 +22,6 @@ export default class StorageUtil {
      * @param {string} key 
      */
     static reset(key) {
-        sessionStorage.removeItem(key + "_set");
+        localStorage.removeItem(key + "_set");
     }
 }

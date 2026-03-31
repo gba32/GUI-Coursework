@@ -1,5 +1,7 @@
 import GPX from "gpx-parser-builder";
 import { WeatherUtil } from "./WeatherUtil";
+import Track from "gpx-parser-builder/src/track";
+import Waypoint from "gpx-parser-builder/src/waypoint";
 
 class GPXWeatherResult {
     constructor(waypointWeatherJSON, trackWeatherJSON) {
@@ -13,6 +15,11 @@ export default class GPXUtil {
         return GPX.parse(gpxString);
     }
 
+    /**
+     * Calculates display details for the given GPX.
+     * @param {GPX} gpx GPX object containing the track data.
+     * @returns The center position of the track and the lines between points.
+     */
     static getMapDetails(gpx) {
         let segmentLines = [];
         let position = [0, 0];
@@ -43,6 +50,10 @@ export default class GPXUtil {
         return { segmentLines: segmentLines, position: position };
     }
 
+    /**
+     * @param {Track} track the track to calculate the distances for.
+     * @returns an array where each index contains the total distance up to that point on the track.
+     */
     static getCumalativeDistance(track) {
         let sum = 0;
         let flattened = flattenTrack(track);
@@ -57,6 +68,10 @@ export default class GPXUtil {
         return distances;
     }
 
+    /**
+     * @param {GPX} gpx GPX object containing the track data.
+     * @returns The sum of all track lengths in the GPX file.
+     */
     static getTotalTrackLength(gpx) {
         let sum = 0;
         gpx.trk.forEach((track) => {
@@ -67,11 +82,12 @@ export default class GPXUtil {
     }
 
     /**
-     *
-     * @param {*} json
-     * @param {*} timeSeconds
-     * @param {*} differenceUpperbound
-     * @returns
+     * Finds the forecast data that a given arrival time falls into.
+     * 
+     * @param {*} json Forecast data for the given point.
+     * @param {*} arrivalTime The expected time of arrival.
+     * @param {*} differenceUpperbound The maximum time difference allowed before the arrivalTime is considered out of the given bounds.
+     * @returns index of the forecasted data for the given arrival time, or null if the arrival time falls out of the given bounds.
      */
     static getWeatherIndex(json, arrivalTime, differenceUpperboundSeconds) {
         let timeSeconds = arrivalTime / 1000;
@@ -119,9 +135,10 @@ export default class GPXUtil {
                                 }
                                 let initialIndex = pointIndex;
                                 let pointPromises = [fetchWeatherAtPoint(apiKey, segment.trkpt[0]).then((result) => {
-                                     return { result: result, pointIndex: initialIndex } })];
+                                    return { result: result, pointIndex: initialIndex }
+                                })];
                                 let currentAnchor = segment.trkpt[0];
-                                
+
                                 for (let i = 1; i < segment.trkpt.length; i++) {
                                     let point = segment.trkpt[i];
                                     let d = GPXUtil.distance([parseFloat(currentAnchor.$.lat), parseFloat(currentAnchor.$.lon)], [parseFloat(point.$.lat), parseFloat(point.$.lon)]);
@@ -142,16 +159,15 @@ export default class GPXUtil {
                     )
                 }
             )
-        ) : Promise.resolve();
+        ) : new Promise((resolve) => { resolve([]) });
 
-        console.log(gpx.wpt);
         let waypoints = gpx.wpt !== undefined ? Promise.all(gpx.wpt.map(
             (point) => WeatherUtil.fetchForecast3Hour(apiKey, point.$.lon, point.$.lat)
-        )) : Promise.resolve();
+        )) : new Promise((resolve) => { resolve([[]]) });
 
-        let promises = Promise.all([tracks]);
+        let promises = Promise.all([waypoints, tracks]);
         return promises.then((data) => {
-            return new GPXWeatherResult(null, data[0][0])
+            return new GPXWeatherResult(data[0], data[1][0])
         });
     }
 
@@ -189,7 +205,8 @@ export default class GPXUtil {
 
     /**
      * Calculates the total elevation for a track 
-     * @param {*} track 
+     * @param {GPX} gpx the gpx object for which the elevation is calculated
+     * @returns {number} 
      */
     static calculateElevation(gpx) {
         let sum = 0;
@@ -212,17 +229,27 @@ export default class GPXUtil {
 }
 
 
-
-
+/**
+ * 
+ * @param {string} apiKey the OpenWeatherMap API key.
+ * @param {Waypoint} point the latitude/longitude point to fetch the data for.
+ * @returns an object containing the longitude, latitude and json data from the request.
+ */
 function fetchWeatherAtPoint(apiKey, point) {
     return WeatherUtil.fetchForecast3Hour(apiKey, point.$.lon, point.$.lat).then(
-        ({status, response}) => {
+        ({ status, response }) => {
             let json = response;
             return { lon: point.$.lon, lat: point.$.lat, json: json };
         }
     )
 }
 
+/**
+ * Flattens track segments into a series of waypoints
+ * 
+ * @param {Track} track the track to flatten
+ * @returns an array of way points
+ */
 function flattenTrack(track) {
     let points = [];
     track.trkseg.forEach(
@@ -233,7 +260,6 @@ function flattenTrack(track) {
 
     return points;
 }
-
 
 function degToRad(degrees) {
     return (Math.PI / 180) * degrees;
