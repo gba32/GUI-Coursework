@@ -24,11 +24,15 @@ function WeatherPageInternal({ locationData }) {
 
     useEffect(() => {
         WeatherUtil.fetchForecast3Hour(apiKey, locationData["lon"], locationData["lat"]).then(result => {
-            setDailyWeather({ data: result["list"], loaded: true });
+            if(result.status == 200) {
+                setDailyWeather({ data: result.response["list"], loaded: true });
+            }
         });
 
         WeatherUtil.fetchForecast1Hour(apiKey, locationData["lon"], locationData["lat"], 6).then(result => {
-            setCurrentWeather({ data: result["list"], loaded: true });
+            if(result.status == 200) {
+                setCurrentWeather({ data: result.response["list"], loaded: true });
+            }
         })
     }, [])
 

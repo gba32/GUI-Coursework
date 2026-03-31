@@ -1,7 +1,7 @@
 
 export class WeatherUtil {
     static fetchJSON(url, params) {
-        return fetch(url + "?" + new URLSearchParams(params), { method: "GET" }).then(response => response.json());
+        return fetch(url + "?" + new URLSearchParams(params), { method: "GET" }).then(response => response.json().then((data) => { return {status: response.status, response: data}}));
     }
 
     static fetchForecast3Hour(apiKey, longitude, latitude) {
