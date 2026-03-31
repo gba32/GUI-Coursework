@@ -32,7 +32,11 @@ export default function SearchPage() {
         WeatherUtil
             .fetchLocationData(apiKey, event.target.value, 20)
             .then((results) => {
-                setSearchResults(results);
+                if(results["cod"] === "400") {
+                    setSearchResults([])
+                } else {
+                    setSearchResults(results);
+                }
             });
     }
 
