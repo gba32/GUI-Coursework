@@ -129,7 +129,7 @@ export default class GPXUtil {
                                         let index = pointIndex + i;
                                         pointPromises.push(
                                             fetchWeatherAtPoint(apiKey, point).then((result) => {
-                                                return { result: result.response, pointIndex: index }
+                                                return { result: result, pointIndex: index }
                                             })
                                         );
                                         currentAnchor = point;
