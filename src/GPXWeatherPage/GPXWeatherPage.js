@@ -114,7 +114,7 @@ function GPXWeatherMapPage({ gpx }) {
                     // 4 m/s pace
                     console.log("JSON:", track);
                     let trackMarkers = track.map((point) => {
-                        let json = point["result"]["json"].response;
+                        let json = point["result"]["json"];
                         let etaDate = startDate.add(distances[point.pointIndex] / scaledPace, 's');
                         let weatherIndex = GPXUtil.getWeatherIndex(json["list"], etaDate.valueOf(), 3 * 60 * 60);
                         let validIndex = weatherIndex !== null;
