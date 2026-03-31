@@ -9,6 +9,7 @@ import SettingsPage from '../SettingsPage/SettingsPage';
 import SocialPage from '../SocialPage/SocialPage';
 import WeatherPage from "../WeatherPage/WeatherPage";
 import './NavigationBar.css';
+import { DrawerLinks } from "./NavigationBar";
 
 // Class for storing Navigation url paths
 class NavPath {
@@ -64,9 +65,7 @@ export default function MainRouter() {
             <h2 className="nav-title">Navigation</h2>
           </div>
           <div className="nav-links">
-            <button className="nav-btn nav-btn--active">GPX Upload</button>
-            <button className="nav-btn">Weather</button>
-            <button className="nav-btn">Account</button>
+            <DrawerLinks currentPath={window.location.pathname}/>
           </div>
           <div className="nav-contact">
             Contact info:
