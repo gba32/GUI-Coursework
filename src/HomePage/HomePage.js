@@ -4,6 +4,9 @@ import NavigationBar from '../NavigationBar/NavigationBar'
 import ListCard, { ListCardItem } from '../ListCard/ListCard';
 import { AccountCircleOutlined } from '@mui/icons-material';
 import { APP_THEME } from '../Theme/Theme';
+import { useNavigate } from 'react-router';
+import StorageUtil from '../Utility/StorageUtil';
+import { gpxData } from '../GPXroute/sampleGPX2';
 
 /**
  * 
@@ -16,9 +19,10 @@ export default function HomePage({loggedIn, username}) {
 
 /**
  * Home page for a user with an account
- * @returns 
  */
-export function AccountHomePage({username}) {
+function AccountHomePage({username}) {
+    let navigator = useNavigate();
+
     return (
             <main className='MainContainer'>
                 <nav>
@@ -35,11 +39,14 @@ export function AccountHomePage({username}) {
                         title="History"
                         showTitle
                         childPropsList={
-                            Array(10).fill({ title: "value" })
+                            []
                         }
-                        childTemplate={ListCardItem} />
+                        childTemplate={HistoryCard} />
                     <section className='bottomContainer'>
-                        <Button variant='contained'>Upload GPX</Button>
+                        <Button variant='contained' onClick={() => {
+                            StorageUtil.writeOnce("GPX_DATA", gpxData);
+                            navigator("/details");
+                        }}>Upload GPX</Button>
                     </section>
                 </div>
             </main>
@@ -48,9 +55,8 @@ export function AccountHomePage({username}) {
 
 /**
  * Home page for users without an account
- * @returns 
  */
-export function GuestHomePage() {
+function GuestHomePage() {
     return (
         <main className='MainContainer'>
             <NavigationBar title="Home" />
@@ -61,4 +67,10 @@ export function GuestHomePage() {
             </section>
         </main>
     );
+}
+
+function HistoryCard(gpx) {
+    return <article>
+        <Typography variant='h4'>{gpx.metadata.name}</Typography>
+    </article>
 }
