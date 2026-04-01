@@ -4,7 +4,8 @@
 export const STORAGE_KEY = {
     TEMP: "TEMP_UNIT",
     WIND: "WIND_UNIT",
-    DIST: "DIST_UNIT"
+    DIST: "DIST_UNIT",
+    GPX: "GPX_DATA"
 }
 
 export default class StorageUtil {

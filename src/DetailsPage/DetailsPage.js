@@ -15,7 +15,7 @@ import { DISTANCE_UNITS, DistanceUnit, UnitUtil } from "../Utility/UnitUtil";
  * If the GPX file data cannot be loaded, an error page is shown and the user is redirected home. 
  */
 export default function DetailsPage() {
-    let gpxData = StorageUtil.read("GPX_DATA");
+    let gpxData = StorageUtil.read(STORAGE_KEY.GPX);
 
     return gpxData === null ? <ErrorPage message="Failed to load gpx data" timeoutSeconds={10} redirectTo={"/"} /> : <DetailsPageInternal gpx={GPXUtil.loadGPX(gpxData)} />;
 }
@@ -48,7 +48,7 @@ function DetailsPageInternal({ gpx }) {
     }
 
     let cancelHandler = () => {
-        StorageUtil.reset("GPX_DATA");
+        StorageUtil.reset(STORAGE_KEY.GPX);
         navigator(-1);
     }
     

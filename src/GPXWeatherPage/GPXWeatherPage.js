@@ -24,7 +24,7 @@ import './GPXWeatherPage.css';
  * @returns 
  */
 export default function GPXWeatherPage() {
-    const gpxData = StorageUtil.read("GPX_DATA");
+    const gpxData = StorageUtil.read(STORAGE_KEY.GPX);
 
     return gpxData === null ? <ErrorPage message="Failed to load gpx data" timeoutSeconds={10} redirectTo={"/"} /> : <GPXWeatherMapPage gpx={GPXUtil.loadGPX(gpxData)} />;
 }

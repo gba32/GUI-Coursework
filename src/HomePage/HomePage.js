@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { gpxData } from '../GPXroute/sampleGPX2';
-import StorageUtil from '../Utility/StorageUtil';
+import StorageUtil, { STORAGE_KEY } from '../Utility/StorageUtil';
 import './HomePage.css';
 
 const previousRoutes = [
@@ -29,6 +29,23 @@ export default function HomePage() {
  */
 export function AccountHomePage({ username }) {
   let navigator = useNavigate();
+
+  let uploadFileCallback = () => {
+    let input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", ".gpx");
+    input.onchange = async (e) => {
+      let fileReader = new FileReader();
+      fileReader.readAsText(e.target.files[0], 'UTF-8');
+      fileReader.onload = (r) => {
+        StorageUtil.reset(STORAGE_KEY.GPX);
+        StorageUtil.writeOnce(STORAGE_KEY.GPX, r.target.result);
+        navigator("/details");
+      }
+    }
+    input.click();
+  }
+
   return (
       <>
         {/* Main content */}
@@ -58,7 +75,7 @@ export function AccountHomePage({ username }) {
               <section className="card upload-card">
                 <div className="upload-dropzone">
                   <div className="upload-btn-wrap">
-                    <button className="btn-primary">
+                    <button className="btn-primary" onClick={uploadFileCallback}>
                       <svg viewBox="0 0 24 24" fill="none" className="btn-icon" stroke="currentColor" strokeWidth="2">
                         <path d="M12 16V4" />
                         <path d="m7 9 5-5 5 5" />
@@ -69,10 +86,10 @@ export function AccountHomePage({ username }) {
                   </div>
                 </div>
 
-                <div className="upload-actions">
+                {/* <div className="upload-actions">
                   <button className="btn-confirm" onClick={() => {
-                      StorageUtil.reset("GPX_DATA");
-                      StorageUtil.writeOnce("GPX_DATA", gpxData);
+                      StorageUtil.reset(STORAGE_KEY.GPX);
+                      StorageUtil.writeOnce(STORAGE_KEY.GPX, gpxData);
                       navigator("/details");
                   }}>
                     <svg viewBox="0 0 24 24" fill="none" className="btn-icon" stroke="currentColor" strokeWidth="2.5">
@@ -87,7 +104,7 @@ export function AccountHomePage({ username }) {
                     </svg>
                     Cancel
                   </button>
-                </div>
+                </div> */}
               </section>
 
               {/* Quick access side panel */}
