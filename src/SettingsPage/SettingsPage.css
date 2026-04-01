@@ -1,384 +1,339 @@
-
-
-:root {             /* main colours for the whole file for ease of editing */
-  --primary: #2D6A6A;
-  --primary-light: #C8E6E6;
-  --page-bg: #F4F8F9;
-  --card-border: #cde0e0;
-  --text: #1a1a1a;
-  --text-sub: #555;
-  --white: #ffffff;
-  --danger: #c0392b;
-  --danger-bg: #fdecea;
-  --topbar-height: 86px;
-}
-
 .settings-page {
-  min-height: 100vh;             /* allows to always fill the whole screen height */
-  background-color: var(--page-bg);
-  font-family: 'Inter', sans-serif;
-  color: var(--text);
-  display: flex;             /* stack topbar and body content on top of each other */
+  display: flex;
   flex-direction: column;
+  min-height: 100%;
+  background-color: var(--bg-main);
+  color: var(--text-main);
 }
-
 
 .settings-body {
-  flex: 1;                     /* fill the remaining vertical space under the topbar */
-  padding: 20px 16px 40px;                      /* to stop from stretching to the whole screen eg. on computer */
-  max-width: 500px;
-  width: 100%;
-  margin: 0 auto;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1.25rem 1rem 3rem;
 }
 
-/* sections */
-.settings-section {                          /* bottom margin on all sections */
-  margin-bottom: 28px;
+@media (min-width: 640px) {
+  .settings-body {
+    padding: 1.5rem 1.5rem 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .settings-body {
+    padding: 2rem 2.5rem 3rem;
+    max-width: 48rem;
+  }
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .settings-section-title {
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--primary);
-  margin: 0 4px 8px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0 0 0.25rem 0.25rem;
 }
 
-/* cards to contain all the individual settings for each section */
 .settings-card {
-  background-color: var(--white);
-  border-radius: 14px;
-  border: 1px solid var(--card-border);
+  border-radius: 1.5rem;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .settings-card-label {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--text-sub);
-  padding: 12px 16px 4px;
-  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  padding: 1rem 1.25rem 0;
 }
 
 .settings-card-danger {
-  border-color: #f5c6c2;
+  border-color: rgba(220, 38, 38, 0.3);
+  background: #fff0f0;
 }
 
-/* rows which are all the individual items in the cards */
 .settings-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;              /* pushes label to the left and the buttons to the right */
-  gap: 12px;
-  padding: 14px 16px;
-  min-height: 52px;                        /* minimum tap target on phones (material design guideline) */
-  box-sizing: border-box;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+}
+
+.settings-row-button {
   width: 100%;
-}
-
-/* used for the data storage row so the text fills the whole width */
-.settings-row-full {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-}
-
-.settings-row-button {                      /* for clickable rows like password change */
   background: none;
   border: none;
   cursor: pointer;
   text-align: left;
-  color: inherit;
+  color: var(--text-main);
+  transition: background 0.15s;
 }
 
 .settings-row-button:hover {
-  background-color: var(--primary-light);
+  background: var(--bg-soft);
+}
+
+.settings-row-full {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
+}
+
+.settings-label {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.settings-sublabel {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin: 0.125rem 0 0;
+  line-height: 1.4;
+}
+
+.settings-sublabel-full {
+  margin-top: 0.25rem;
+}
+
+.settings-label-danger {
+  color: #dc2626;
 }
 
 .settings-divider {
   height: 1px;
-  background-color: var(--card-border);
-  margin: 0 16px;
-}
-
-/* labels */
-.settings-label {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text);
-  white-space: nowrap;
-}
-
-.settings-sublabel {
-  font-size: 12px;
-  color: var(--text-sub);
-  margin: 3px 0 0;
-  line-height: 1.4;
-  max-width: 220px;
-}
-
-/* when the sublabel sits below a full-width label, let it stretch */
-.settings-sublabel-full {
-  max-width: 100%;
-  white-space: normal;
-}
-
-.settings-label-danger {
-  color: var(--danger);
+  background: var(--border);
+  margin: 0 1.25rem;
 }
 
 .settings-chevron {
-  color: var(--text-sub);
-  font-size: 14px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
   flex-shrink: 0;
 }
 
-/* inputs */
 .settings-input {
-  border: none;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  background: var(--bg-soft);
+  color: var(--text-main);
+  font-size: 0.9375rem;
+  padding: 0.4rem 0.75rem;
+  max-width: 14rem;
   outline: none;
-  background: transparent;
-  font-size: 15px;
-  color: var(--text);
-  text-align: right;
-  width: 100%;
-  max-width: 200px;
-  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.settings-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
 }
 
 .settings-input-block {
-  display: block;
-  text-align: left;
-  background-color: var(--page-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 8px;
-  padding: 10px 14px;
-  margin: 8px 16px 0;
-  width: calc(100% - 32px);                /* to stop text from overflowing from the box */
-  box-sizing: border-box;
-  font-size: 15px;
-  font-family: inherit;
   max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.875rem;
 }
 
-.settings-input-block:focus {
-  border-color: var(--primary);
-  outline: none;
-}
-
-/* search inputs for friends and events */
-.settings-search-input {
-  margin-bottom: 4px;
-}
-
-/* password form */
 .settings-password-form {
-  padding-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 0.75rem 1.25rem 1.25rem;
 }
 
 .settings-msg {
-  margin: 8px 16px 0;
-  font-size: 13px;
-  border-radius: 6px;
-  padding: 6px 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  margin: 0;
 }
 
 .settings-msg-ok {
-  background-color: #e6f4ea;
-  color: #2d6a3f;
+  background: #dcfce7;
+  color: #15803d;
 }
 
 .settings-msg-err {
-  background-color: var(--danger-bg);
-  color: var(--danger);
+  background: #fee2e2;
+  color: #b91c1c;
 }
 
-/* buttons */
-.settings-btn {
-  display: block;
-  width: calc(100% - 32px);
-  margin: 12px 16px 4px;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  transition: opacity 0.15s;
-}
-
-.settings-btn:hover {
-  opacity: 0.88;
-}
-
-.settings-btn-primary {
-  background-color: var(--primary);
-  color: var(--white);
-}
-
-.settings-btn-ghost {
-  background-color: transparent;
-  border: 1px solid var(--card-border);
-  color: var(--text);
-  width: auto;
-  margin: 0;
-  padding: 10px 20px;
-}
-
-.settings-btn-danger {
-  background-color: var(--danger);
-  color: var(--white);
-  width: auto;
-  margin: 0;
-  padding: 10px 20px;
-}
-
-/* toggle switch */
 .settings-toggle {
   position: relative;
-  width: 50px;
-  height: 28px;
-  background-color: #ccc;
-  border-radius: 14px;
+  width: 2.75rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background: #cbd5e1;
   border: none;
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color 0.2s;
+  transition: background 0.2s;
   padding: 0;
 }
 
 .settings-toggle-on {
-  background-color: var(--primary);
+  background: var(--primary);
 }
 
 .settings-toggle-thumb {
   position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 22px;
-  height: 22px;
-  background-color: var(--white);
-  border-radius: 50%;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s;
   display: block;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .settings-toggle-on .settings-toggle-thumb {
-  transform: translateX(22px);                         /* button slide animation */
+  transform: translateX(1.25rem);
 }
 
-/* unit pills */
 .settings-pill-group {
   display: flex;
-  gap: 6px;
-  flex-shrink: 0;
+  gap: 0.375rem;
+  flex-wrap: wrap;
 }
 
 .settings-pill {
-  padding: 5px 12px;
-  border-radius: 20px;
-  border: 1.5px solid var(--primary);
-  background: transparent;
-  color: var(--primary);
-  font-size: 13px;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--text-main);
+  font-size: 0.8125rem;
   font-weight: 500;
+  padding: 0.35rem 0.875rem;
   cursor: pointer;
-  font-family: inherit;
-  transition: background-color 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
 
-/* add or remove this class to make a pill active depending on selection */
+.settings-pill:hover {
+  background: #b6ceff;
+}
+
 .settings-pill-active {
-  background-color: var(--primary);
-  color: var(--white);
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
 }
 
-/* red pill variant used for remove buttons on friends and events */
-.settings-pill-danger {
-  border-color: var(--danger);
-  color: var(--danger);
-}
-
-.settings-pill-danger:hover {
-  background-color: var(--danger);
-  color: var(--white);
-}
-
-/* friend action buttons sit side by side */
-/* .settings-friend-actions {
-  display: flex;
-  gap: 6px;
-  flex-shrink: 0;
-} */
-
-/* pace input */
 .settings-pace-input-group {
   display: flex;
   align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
+  gap: 0.375rem;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  background: var(--bg-soft);
+  padding: 0.35rem 0.75rem;
 }
 
 .settings-pace-input {
-  width: 56px;
-  padding: 6px 10px;
-  border: 1.5px solid var(--card-border);
-  border-radius: 8px;
-  font-size: 15px;
-  font-family: inherit;
-  text-align: center;
-  color: var(--text);
-  background: var(--page-bg);
+  border: none;
+  background: transparent;
+  color: var(--text-main);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  width: 3.5rem;
+  outline: none;
+  text-align: right;
+  -moz-appearance: textfield;
 }
 
-.settings-pace-input:focus {
-  border-color: var(--primary);
-  outline: none;
+.settings-pace-input::-webkit-outer-spin-button,
+.settings-pace-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 
 .settings-pace-unit {
-  font-size: 14px;
-  color: var(--text-sub);
+  font-size: 0.875rem;
+  color: var(--text-muted);
   white-space: nowrap;
 }
 
-/* delete confirmation */
+.settings-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.settings-btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.settings-btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.settings-btn-ghost {
+  background: var(--bg-soft);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+}
+
+.settings-btn-ghost:hover {
+  background: #b6ceff;
+}
+
+.settings-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.settings-btn-danger:hover {
+  background: #b91c1c;
+}
+
 .settings-delete-confirm {
-  padding: 14px 16px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .settings-delete-warning {
-  font-size: 14px;
-  color: var(--danger);                     /* visible red */
-  margin: 0 0 14px;
+  font-size: 0.875rem;
+  color: #b91c1c;
   line-height: 1.5;
+  margin: 0;
 }
 
 .settings-delete-actions {
   display: flex;
-  gap: 10px;
-  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
-/* gdpr footer */
 .settings-gdpr-note {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
   text-align: center;
-  font-size: 11px;
-  color: var(--text-sub);
-  margin-top: 8px;
-}
-
-@media (max-width: 420px) {
-  .settings-sublabel {
-    max-width: 160px;
-  }
-  .settings-pill {
-    padding: 5px 9px;
-    font-size: 12px;
-  }
+  padding-bottom: 1rem;
+  margin: 0;
 }

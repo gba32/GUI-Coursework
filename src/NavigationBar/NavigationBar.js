@@ -60,15 +60,32 @@ function comparePaths(path1, path2) {
  */
 export function DrawerLinks({currentPath}) {
     const navigateTo = (path) => { window.location.assign(path) };
+    const isLoggedIn = !!JSON.parse(localStorage.getItem("loggedInUser"));
+    
+    // paths only shown when logged out
+    const guestOnly = ["/login", "/register"];
+    // paths only shown when logged in
+    const authOnly = ["/logout"];
+
     let buttons = [];
 
-    PATHS.forEach(
-        (path) => {
-            if (path.navBarButton) {
-                let className = "nav-btn " + (comparePaths(path.relativePath, currentPath) ? "nav-btn--active" : "");
-                buttons.push(<button className={className} key={path.relativePath} onClick={() => { navigateTo(path.relativePath) }}>{path.title}</button>);
-            }
-        }
-    );
+    PATHS.forEach((path) => {
+        if (!path.navBarButton) return;
+
+        if (isLoggedIn && guestOnly.includes(path.relativePath)) return;
+        if (!isLoggedIn && authOnly.includes(path.relativePath)) return;
+
+        let className = "nav-btn " + (comparePaths(path.relativePath, currentPath) ? "nav-btn--active" : "");
+        buttons.push(
+            <button
+                className={className}
+                key={path.relativePath}
+                onClick={() => navigateTo(path.relativePath)}
+            >
+                {path.title}
+            </button>
+        );
+    });
+
     return <React.Fragment>{buttons}</React.Fragment>;
 }

@@ -8,8 +8,10 @@ import SearchPage from "../SearchPage/SearchPage";
 import SettingsPage from '../SettingsPage/SettingsPage';
 import SocialPage from '../SocialPage/SocialPage';
 import WeatherPage from "../WeatherPage/WeatherPage";
+import LogoutPage from "../Logout/Logout";
 import './NavigationBar.css';
 import { DrawerLinks } from "./NavigationBar";
+import { useState, useEffect } from "react";
 
 
 // Class for storing Navigation url paths
@@ -35,12 +37,26 @@ export const PATHS = [
     new NavPath("/settings", "Settings", <SettingsPage/>, true),
     new NavPath("/login", "Login", <LoginPage/>, true),
     new NavPath("/register", "Register", <RegisterPage/>, true),
+    new NavPath("/logout", "Logout", <LogoutPage/>, true),
 ]
 
 /**
  * Router element for URL based page navigation.
  */
 export default function MainRouter() {
+    const [isLoggedIn, setIsLoggedIn] = useState(
+        !!JSON.parse(localStorage.getItem("loggedInUser"))
+    );
+
+    useEffect(() => {
+        const handleAuth = () => {
+            setIsLoggedIn(!!JSON.parse(localStorage.getItem("loggedInUser")));
+        };
+
+        window.addEventListener("authChange", handleAuth);
+        return () => window.removeEventListener("authChange", handleAuth);
+    }, []);
+
     var routes = PATHS.map((path) => {
         return <Route key={path.relativePath} path={path.relativePath} element={path.page} />
     });
@@ -68,12 +84,13 @@ export default function MainRouter() {
             <h2 className="nav-title">Navigation</h2>
           </div>
           <div className="nav-links">
-            <DrawerLinks currentPath={window.location.pathname}/>
+            {/* pass isLoggedIn down so DrawerLinks re-renders when it changes */}
+            <DrawerLinks currentPath={window.location.pathname} isLoggedIn={isLoggedIn}/>
           </div>
           <div className="nav-contact">
             Contact info:
-            <p>Email: @</p>
-            <p>Mobile: +44</p>
+            <p>Email: admin@findaroute.com</p>
+            <p>Mobile: +44 0285683927</p>
           </div>
         </nav>
 

@@ -28,11 +28,8 @@ export default function LoginPage() {
       return;
     }
 
-    // store logged-in user
     localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
-
-
-    // redirect to home
+    window.dispatchEvent(new Event("authChange")); // ← add this
     navigate("/");
   };
 
