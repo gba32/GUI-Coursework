@@ -1,6 +1,7 @@
 import { ArrowDropDown } from '@mui/icons-material';
 import { Button, ButtonProps, Typography } from '@mui/material';
 import './ListCard.css';
+import { RenderOptional } from '../Utility/ReactUtil';
 
 
 /**
@@ -49,16 +50,16 @@ export default function ListCard({
     }
     let childContainer = <article className={scrollerClassName + (expanded ? ' expanded' : '')}>{children}</article>;
 
-    if (showTitle) {
-        titleElement = <Typography letiant='h5'> <b>{title}</b> </Typography>;
-    }
-
-
     return (
         <section className={'card'}>
-            <div className='title'> {titleElement} </div>
+            <RenderOptional enabled={showTitle}>
+                <div className='title'> <Typography letiant='h5'> <b>{title}</b> </Typography> </div>
+
+            </RenderOptional>
             {childContainer}
-            {showExpand === true && <ExpandButton onClick={onExpand} />}
+            <RenderOptional enabled={showExpand}>
+                <ExpandButton onClick={onExpand} />
+            </RenderOptional>
         </section>
     )
 }
