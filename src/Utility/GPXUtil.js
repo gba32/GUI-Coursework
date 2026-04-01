@@ -120,7 +120,7 @@ export default class GPXUtil {
      * @param {*} distanceThreshold 
      * @returns 
      */
-    static fetchGPXWeather(apiKey, gpx, distanceThreshold = 10000) {
+    static fetchGPXWeather(apiKey, gpx, distanceThreshold = 5000) {
         let tracks = gpx.trk !== undefined ? Promise.all(
             gpx.trk.map(
                 (track) => {

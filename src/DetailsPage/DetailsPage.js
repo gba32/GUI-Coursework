@@ -16,8 +16,17 @@ import { DISTANCE_UNITS, DistanceUnit, UnitUtil } from "../Utility/UnitUtil";
  */
 export default function DetailsPage() {
     let gpxData = StorageUtil.read(STORAGE_KEY.GPX);
-
-    return gpxData === null ? <ErrorPage message="Failed to load gpx data" timeoutSeconds={10} redirectTo={"/"} /> : <DetailsPageInternal gpx={GPXUtil.loadGPX(gpxData)} />;
+    let flag = gpxData === null;
+    let gpx = undefined;
+    // Test loading 
+    if(!flag) {
+        try {
+            gpx = GPXUtil.loadGPX(gpxData);
+        } catch(error) {
+            flag = true;
+        }
+    }
+    return flag ? <ErrorPage message="Failed to load gpx data" timeoutSeconds={10} redirectTo={"/"} /> : <DetailsPageInternal gpx={gpx} />;
 }
 
 /**
