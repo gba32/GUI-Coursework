@@ -163,7 +163,7 @@ export default function SocialPage({ onBack, onMenuOpen }) {
 
         {/*friends*/}
         {activeTab === 'friends' && (
-          <div>
+          <div className='social-body-main'>
 
             {/* pending requests card which only renders if there are any pending requests */}
             {friendRequests.length > 0 && (
@@ -276,7 +276,7 @@ export default function SocialPage({ onBack, onMenuOpen }) {
 
         {/* events tab */}
         {activeTab === 'events' && (
-          <div>
+          <div className='social-body-main'>
 
             {/* events the user has saved - loaded from events.json for the demo */}
             <div className="social-card">
