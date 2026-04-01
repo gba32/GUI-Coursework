@@ -23,14 +23,7 @@ export default function HomePage() {
   return loggedIn ? <AccountHomePage username={username} /> : <GuestHomePage />;
 }
 
-/**
- * Home page for a user with an account.
- * @param {string} username
- */
-export function AccountHomePage({ username }) {
-  let navigator = useNavigate();
-
-  let uploadFileCallback = () => {
+function uploadFileCallback(navigator) {
     let input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", ".gpx");
@@ -45,6 +38,13 @@ export function AccountHomePage({ username }) {
     }
     input.click();
   }
+
+/**
+ * Home page for a user with an account.
+ * @param {string} username
+ */
+export function AccountHomePage({ username }) {
+  let navigator = useNavigate();
 
   return (
       <>
@@ -75,7 +75,7 @@ export function AccountHomePage({ username }) {
               <section className="card upload-card">
                 <div className="upload-dropzone">
                   <div className="upload-btn-wrap">
-                    <button className="btn-primary" onClick={uploadFileCallback}>
+                    <button className="btn-primary" onClick={() => {uploadFileCallback(navigator)}}>
                       <svg viewBox="0 0 24 24" fill="none" className="btn-icon" stroke="currentColor" strokeWidth="2">
                         <path d="M12 16V4" />
                         <path d="m7 9 5-5 5 5" />
@@ -183,7 +183,7 @@ export function AccountHomePage({ username }) {
  * Home page for users without an account.
  */
 export function GuestHomePage() {
-  const navigate = useNavigate();
+  let navigator = useNavigate();
   return (
     <>
       <div className="guest-layout">
@@ -202,17 +202,17 @@ export function GuestHomePage() {
           <div className="guest-actions">
             <button
               className="btn-primary btn-primary--large"
-              onClick={() => navigate("/login")}
+              onClick={() => navigator("/login")}
             >
               Log in
             </button>
             <button 
               className="btn-primary btn-primary--large"
-              onClick={() => navigate("/register")}
+              onClick={() => navigator("/register")}
             >
               Sign up
             </button>
-            <button className="btn-outline btn-primary--large">Upload GPX</button>
+            <button className="btn-outline btn-primary--large"  onClick={() => {uploadFileCallback(navigator)}}>Upload GPX</button>
           </div>
         </div>
       </div>
