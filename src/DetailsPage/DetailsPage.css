@@ -2,7 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 100%;
+    width: 100%;
+    z-index: -1;
     gap: 1em;
 }
 
@@ -16,17 +17,31 @@
 .detailsCard {
     display: flex;
     flex-direction: column;
-    margin: 0.25em;
-    border: 1px solid var(--mui-palette-primary-main);
-    min-width: 32rem;
-    width: 30vw;
+    border: 1px solid var(--primary);
+    width: 100%;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
+
 .detailsCard>.title {
-    background: var(--mui-palette-primary-main);
+    background-color: var(--primary);
+    color: white;
     padding: 0.25em;
     flex-grow: 1;
     justify-items: start;
     width: stretch;
+}
+
+.confirmationBar {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    margin-bottom: 1em;
+    gap: 1em;
+}
+
+.confirmationBar>.MuiButton-root {
+    flex: 50%;
+    background-color: var(--bg-soft);
+    color: black;
 }

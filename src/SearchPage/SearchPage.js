@@ -1,11 +1,12 @@
-import { TextField, ThemeProvider, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { API_KEY } from "../KEY_PROVIDER";
 import ListCard from "../ListCard/ListCard";
-import { APP_THEME } from "../Theme/Theme";
+import TitleBar from "../NavigationBar/NavigationBar";
 import StorageUtil from "../Utility/StorageUtil";
 import { WeatherUtil } from "../Utility/WeatherUtil";
+import "./SearchPage.css";
 
 /**
  * Card template for location results
@@ -15,13 +16,15 @@ import { WeatherUtil } from "../Utility/WeatherUtil";
  * @returns 
  */
 function LocationCard(data, onClick) {
-    return <a href="" onClick={() => onClick(data)}>
-        <div>
-            <Typography variant="h5">{data["name"]}</Typography>
-            <Typography variant="h6">{data["country"]}</Typography>
-            <Typography variant="h6">{data["state"]}</Typography>
-        </div>
-    </a>
+    return <article className="searchResult">
+        <Button variant="contained" href="" onClick={() => onClick(data)}>
+            <div>
+                <Typography variant="h5">{data["name"]}</Typography>
+                <Typography variant="p" component="div">{data["country"]}</Typography>
+                <Typography variant="p" component="div">{data["state"]}</Typography>
+            </div>
+        </Button>
+    </article>
 }
 
 /**
@@ -37,22 +40,23 @@ export default function SearchPage() {
         navigator("/weather");
     };
     let [searchResults, setSearchResults] = useState([]);
-    
+
     // Fetch geocoding data
     let textChangeHandler = (event) => {
         WeatherUtil
             .fetchLocationData(apiKey, event.target.value, RESULT_LIMIT)
             .then((results) => {
-                setSearchResults(results.status == 200 ? results.response : []);
+                setSearchResults(results.status === 200 ? results.response : []);
             });
     }
 
 
     return (
-        <ThemeProvider theme={APP_THEME}>
-            <TextField onChange={textChangeHandler}></TextField>
-            <ListCard title="Results" expanded childPropsList={searchResults} childTemplate={(params) => LocationCard(params, clickHandler)}/>
-        </ThemeProvider>
+        <section className="searchContainer">
+            <TitleBar title="Locations" />
+            <TextField placeholder="Search for location" onChange={textChangeHandler}></TextField>
+            <ListCard title="Results" showTitle  expanded childPropsList={searchResults} childTemplate={(params) => LocationCard(params, clickHandler)} />
+        </section>
     )
 
 

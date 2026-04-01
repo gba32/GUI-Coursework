@@ -1,46 +1,24 @@
-import { AppBar, Button, ButtonGroup, Drawer, ThemeProvider, Toolbar, Typography } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
-import './NavigationBar.css'
-import { ArrowBack } from "@mui/icons-material";
-import React, { useState } from "react";
+import { AppBar, Toolbar, Typography } from "@mui/material";
+import React from "react";
+import './NavigationBar.css';
 import { PATHS } from "./NavLinks";
-import { useNavigate } from "react-router";
 
 /**
  * Common navbar component for all pages
  * @returns 
  */
-export default function NavigationBar({ title, onBackPressed, showBackButton }) {
-    var [drawerOpen, setDrawerOpen] = useState(false);
-    var backButton = <Button disabled size="large"></Button>;
-
-    var toggleDrawer = () => { setDrawerOpen(!drawerOpen) };
-
-    if (showBackButton) {
-        backButton = (
-            <Button size="large" onClick={onBackPressed}>
-                <ArrowBack />
-            </Button>
-        );
-    }
-
+export default function TitleBar({ title }) {
     return (
         <nav>
             <AppBar position="sticky">
-                <Toolbar className="navbar">
+                <Toolbar className="appBar">
                     <div className="title">
                         <Typography variant="h4">
                             <b>{title}</b>
                         </Typography>
                     </div>
-
                 </Toolbar>
             </AppBar>
-            <Drawer variant="temporary" onClose={toggleDrawer} open={drawerOpen}>
-                <div className="navDrawer">
-                    <Typography variant="h5"><b>GPX Weather app</b></Typography>
-                </div>
-            </Drawer>
         </nav>
     );
 }

@@ -1,5 +1,5 @@
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import { MenuItem, Select, TextField, ThemeProvider, Typography } from "@mui/material";
+import { MenuItem, Select, TextField, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from "dayjs";
@@ -10,7 +10,6 @@ import { Marker, Polyline, Popup } from "react-leaflet";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import { API_KEY } from "../KEY_PROVIDER";
 import notFoundIcon from "../NotFound.png";
-import { APP_THEME } from "../Theme/Theme";
 import GPXUtil from "../Utility/GPXUtil";
 import StorageUtil from "../Utility/StorageUtil";
 import { SPEED_UNITS, SpeedUnit, TEMP_UNITS, TempUnit, UnitUtil } from "../Utility/UnitUtil";
@@ -121,7 +120,7 @@ function GPXWeatherMapPage({ gpx }) {
                     setLoaded(true);
                 })
         }
-    }, [loaded])
+    }, [loaded, apiKey, gpx]);
 
     // Map and UI management
     useEffect(() => {
@@ -162,8 +161,8 @@ function GPXWeatherMapPage({ gpx }) {
                             shadowAnchor: [25, 25]
                         })
 
-                        let roundedTemp = UnitUtil.round(TempUnit.convert(parseFloat(mainJSON["temp"]), TEMP_UNITS.KELVIN, tempUnit),0);
-                        let roundedFeel = UnitUtil.round(TempUnit.convert(parseFloat(mainJSON["feels_like"]), TEMP_UNITS.KELVIN, tempUnit),0);
+                        let roundedTemp = UnitUtil.round(TempUnit.convert(parseFloat(mainJSON["temp"]), TEMP_UNITS.KELVIN, tempUnit), 0);
+                        let roundedFeel = UnitUtil.round(TempUnit.convert(parseFloat(mainJSON["feels_like"]), TEMP_UNITS.KELVIN, tempUnit), 0);
                         let roundedWindSpeed = UnitUtil.round(SpeedUnit.convert(windJSON["speed"], SPEED_UNITS.MS, windUnit), 2);
                         let content = validIndex ?
                             <React.Fragment>
@@ -171,7 +170,7 @@ function GPXWeatherMapPage({ gpx }) {
                                 <Typography>Feels like: {roundedFeel}°</Typography>
                                 <Typography>Wind speed: {roundedWindSpeed}{SpeedUnit.getUnitString(windUnit)} <ArrowUpwardIcon sx={{ rotate: windJSON["deg"] + "deg", margin: "0" }} /> </Typography>
                             </React.Fragment> : <React.Fragment>
-                                <Typography>Cannot get weather data for this time.</Typography> 
+                                <Typography>Cannot get weather data for this time.</Typography>
                             </React.Fragment>
 
                         return <Marker position={[point.result.lat, point.result.lon]} icon={icon}>
@@ -193,19 +192,17 @@ function GPXWeatherMapPage({ gpx }) {
     }, [loaded, gpx, pace, unitIndex, startDate]);
 
     return (
-        <ThemeProvider theme={APP_THEME}>
-            <div className="mapContainer" >
-                <GPXWeatherMap center={mapDetails.position} zoom={13} scrollWheelZoom={false}>
-                    <Polyline pathOptions={options} positions={mapDetails.segmentLines} />
-                    {markers}
-                    <OptionsPanel pace={pace} onPaceChanged={(pace) => setPace(pace)} onStartTimeChanged={(newDate) => { setStartDate(newDate) }} onUnitChanged={(index) => {
-                        // Convert value from old unit to new unit
-                        let oldIndex = unitIndex;
-                        setUnitIndex(index)
-                        setPace(UnitUtil.round(SpeedUnit.convert(pace, oldIndex, index), 2));  
-                    }} />
-                </GPXWeatherMap>
-            </div>
-        </ThemeProvider>
-    )
+        <div className="mapContainer" >
+            <GPXWeatherMap center={mapDetails.position} zoom={13} scrollWheelZoom={false}>
+                <Polyline pathOptions={options} positions={mapDetails.segmentLines} />
+                {markers}
+                <OptionsPanel pace={pace} onPaceChanged={(pace) => setPace(pace)} onStartTimeChanged={(newDate) => { setStartDate(newDate) }} onUnitChanged={(index) => {
+                    // Convert value from old unit to new unit
+                    let oldIndex = unitIndex;
+                    setUnitIndex(index)
+                    setPace(UnitUtil.round(SpeedUnit.convert(pace, oldIndex, index), 2));
+                }} />
+            </GPXWeatherMap>
+        </div>
+    )   
 }

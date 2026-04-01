@@ -1,24 +1,23 @@
-import { Box, ThemeProvider, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import ErrorPage from "../ErrorPage/ErrorPage";
 import { API_KEY } from "../KEY_PROVIDER";
 import ListCard from "../ListCard/ListCard";
-import NavigationBar from "../NavigationBar/NavigationBar";
-import { APP_THEME } from "../Theme/Theme";
+import TitleBar from "../NavigationBar/NavigationBar";
 import { RenderOptional } from "../Utility/ReactUtil";
 import StorageUtil from "../Utility/StorageUtil";
+import { TEMP_UNITS, TempUnit, UnitUtil } from "../Utility/UnitUtil";
 import { WeatherUtil } from "../Utility/WeatherUtil";
 import "./WeatherPage.css";
-import ErrorPage from "../ErrorPage/ErrorPage";
-import { TEMP_UNITS, TempUnit, UnitUtil } from "../Utility/UnitUtil";
-import dayjs from "dayjs";
 
 /**
  * Displays weather information for a given location. If the location data is not set, an error page is shown and the user is redirected home.
  */
 export default function WeatherPage() {
     let locationData = StorageUtil.read("location");
-    return locationData === null ? <ErrorPage message={"Failed to load weather information for location"} timeoutSeconds={5} redirectTo="/home" /> : <WeatherPageInternal locationData={JSON.parse(locationData)} />
+    return locationData === null ? <ErrorPage message={"Failed to load weather information for location"} timeoutSeconds={5} redirectTo="/" /> : <WeatherPageInternal locationData={JSON.parse(locationData)} />
 }
 
 /**
@@ -38,33 +37,31 @@ function WeatherPageInternal({ locationData }) {
     // Fetch weather data only on initial load
     useEffect(() => {
         WeatherUtil.fetchForecast3Hour(apiKey, locationData["lon"], locationData["lat"]).then(result => {
-            if (result.status == 200) {
+            if (result.status === 200) {
                 setDailyWeather({ data: result.response["list"], loaded: true });
             }
         });
 
         WeatherUtil.fetchForecast1Hour(apiKey, locationData["lon"], locationData["lat"], 6).then(result => {
-            if (result.status == 200) {
+            if (result.status === 200) {
                 setCurrentWeather({ data: result.response["list"], loaded: true });
             }
         })
-    }, [])
+    }, [apiKey, locationData])
 
     return (
-        <ThemeProvider theme={APP_THEME}>
-            <main>
-                <NavigationBar onBackPressed={() => navigator(-1)} showBackButton title={locationData["name"]}></NavigationBar>
-                <RenderOptional enabled={currentWeatherJSON.loaded}>
-                    <CurrentWeatherCard unit={unit} json={currentWeatherJSON.data[0]} />
-                </RenderOptional>
-                <RenderOptional enabled={currentWeatherJSON.loaded}>
-                    <WeatherPreview unit={unit} json={currentWeatherJSON.data} />
-                </RenderOptional>
-                <RenderOptional enabled={dailyWeatherJSON.loaded}>
-                    <WeatherForecastCard unit={unit} json={dailyWeatherJSON.data} />
-                </RenderOptional>
-            </main>
-        </ThemeProvider>
+        <main>
+            <TitleBar onBackPressed={() => navigator(-1)} showBackButton title={locationData["name"]}></TitleBar>
+            <RenderOptional enabled={currentWeatherJSON.loaded}>
+                <CurrentWeatherCard unit={unit} json={currentWeatherJSON.data[0]} />
+            </RenderOptional>
+            <RenderOptional enabled={currentWeatherJSON.loaded}>
+                <WeatherPreview unit={unit} json={currentWeatherJSON.data} />
+            </RenderOptional>
+            <RenderOptional enabled={dailyWeatherJSON.loaded}>
+                <WeatherForecastCard unit={unit} json={dailyWeatherJSON.data} />
+            </RenderOptional>
+        </main>
     );
 }
 
@@ -98,7 +95,7 @@ function CurrentWeatherCard({ json, unit }) {
  * @param {*} props.unit The unit to display temperature in.
  */
 function WeatherPreview({ json, unit = TEMP_UNITS.CELCIUS }) {
-    return <ListCard scrollerClassName="horizontalScroller" expanded={true} childPropsList={json.map((element) => {return {json: element, unit: unit}})} childTemplate={WeatherPreviewCard} />
+    return <ListCard scrollerClassName="horizontalScroller" expanded={true} childPropsList={json.map((element) => { return { json: element, unit: unit } })} childTemplate={WeatherPreviewCard} />
 }
 
 /**
@@ -108,7 +105,7 @@ function WeatherPreview({ json, unit = TEMP_UNITS.CELCIUS }) {
  * @param {*} props.json The weather data for the current time.
  * @param {*} props.unit The unit to display temperature in.
  */
-function WeatherPreviewCard({json, unit = TEMP_UNITS.CELCIUS}) {
+function WeatherPreviewCard({ json, unit = TEMP_UNITS.CELCIUS }) {
     const date = dayjs(json["dt"] * 1000);
     return <div>
         <Typography>
@@ -128,7 +125,7 @@ function WeatherPreviewCard({json, unit = TEMP_UNITS.CELCIUS}) {
  * @param {Array<*>} props.json The weather data for the day.
  * @param {*} props.unit The unit to display temperature in.
  */
-function WeatherCard({dayJSON, unit = TEMP_UNITS.CELCIUS}) {
+function WeatherCard({ dayJSON, unit = TEMP_UNITS.CELCIUS }) {
     // s -> ms
     console.log(dayJSON);
     const json = dayJSON[0];
@@ -154,7 +151,7 @@ function WeatherCard({dayJSON, unit = TEMP_UNITS.CELCIUS}) {
         <Box component="img" src={"https://openweathermap.org/img/wn/" + json["weather"][0]["icon"] + ".png"} />
         <Typography>{
             UnitUtil.round(TempUnit.convert(json["main"]["temp"], TEMP_UNITS.KELVIN, unit), 0)
-            }°</Typography>
+        }°</Typography>
         <Typography>
             {low}°|{high}°
         </Typography>
@@ -179,7 +176,7 @@ function WeatherForecastCard({ json, unit = TEMP_UNITS.CELCIUS }) {
         let seconds = parseInt(forecastJSON["dt"]);
         let day = Math.floor(seconds / DAY_SECONDS);
         if (day !== currentDay) {
-            days.push({dayJSON: [forecastJSON], unit: unit});
+            days.push({ dayJSON: [forecastJSON], unit: unit });
             currentDay = day;
         } else {
             days.at(-1).dayJSON.push(forecastJSON);

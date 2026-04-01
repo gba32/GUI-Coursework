@@ -1,10 +1,9 @@
-import { Button, ButtonGroup, ThemeProvider, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import GPX from "gpx-parser-builder";
 import { Polyline } from "react-leaflet";
 import { useNavigate } from "react-router";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import GPXWeatherMap from "../GPXWeatherPage/GPXWeatherMap";
-import { APP_THEME } from "../Theme/Theme";
 import GPXUtil from "../Utility/GPXUtil";
 import StorageUtil from "../Utility/StorageUtil";
 import './DetailsPage.css';
@@ -55,9 +54,7 @@ function DetailsPageInternal({ gpx }) {
     let elevationText = formatDistance(GPXUtil.calculateElevation(gpx), false);
 
     return (
-        <ThemeProvider theme={APP_THEME}>
             <article id="preview">
-
                 <section className="detailsCard">
                     <div className='title'> <Typography variant='h5'> <b> {gpx.metadata.name} </b> </Typography> </div>
                     <Typography>Total distance: {lengthText}</Typography>
@@ -74,11 +71,10 @@ function DetailsPageInternal({ gpx }) {
                     </div>
                 </section>
 
-                <ButtonGroup variant="contained">
-                    <Button onClick={cancelHandler}>Cancel</Button>
-                    <Button onClick={confirmHandler}>Confirm</Button>
-                </ButtonGroup>
+                <section className="confirmationBar" variant="contained">
+                    <Button variant="contained" onClick={cancelHandler}>Cancel</Button>
+                    <Button variant="contained" onClick={confirmHandler}>Confirm</Button>
+                </section>
             </article>
-        </ThemeProvider>
     );
 }

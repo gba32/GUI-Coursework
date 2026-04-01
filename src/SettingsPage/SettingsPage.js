@@ -1,9 +1,7 @@
 //Imports
 
-import { ThemeProvider } from '@mui/material';
 import { useState } from 'react'; //import react and usecase to store and update onscreen values
-import NavigationBar from '../NavigationBar/NavigationBar';
-import { APP_THEME } from '../Theme/Theme';
+import TitleBar from '../NavigationBar/NavigationBar';
 import StorageUtil from '../Utility/StorageUtil';
 import './SettingsPage.css';
 
@@ -11,8 +9,8 @@ import './SettingsPage.css';
 // unit choices for the preferences section
 const unitOptions = {
   temperature: ['°C', '°F'],
-  distance: ['km', 'miles'],  
-  windSpeed: ['m/s', 'mph','km/h' ],
+  distance: ['km', 'miles'],
+  windSpeed: ['m/s', 'mph', 'km/h'],
 };
 
 export default function SettingsPage({ onBack, onMenuOpen }) {
@@ -45,7 +43,7 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
 
 
 
-// passsword 
+  // passsword 
   function handlePasswordChange(e) {
     e.preventDefault();                                     // stop browser doing a full page reload on submit
 
@@ -72,22 +70,20 @@ export default function SettingsPage({ onBack, onMenuOpen }) {
     setShowPasswordForm(false);
   }
 
-  
 
-// account deletion method
+
+  // account deletion method
   function handleDeleteAccount() {
     // only shows an alert instead of actually deleting
     alert('Account deletion requested. All your data including saved GPX routes has been scheduled for removal.');
     setShowDeleteConfirm(false);
   }
 
-//Render of the page
+  //Render of the page
   return (
     <div className="settings-page">
 
-      <ThemeProvider theme={APP_THEME}>
-        <NavigationBar title = "Settings" />
-      </ThemeProvider>
+      <TitleBar title="Settings" />
 
       <div className="settings-body">
 

@@ -1,0 +1,32 @@
+.searchContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.searchContainer>*{
+    margin: 0px;
+}
+
+.searchResult {
+    padding-left: 2px;
+    padding-right: 2px;
+    display: flex;
+}
+
+.searchResult>h6 {
+    font-size: 1em;
+}
+
+.searchResult>*{
+    flex-direction: row;
+    text-decoration: none;
+    color: black;
+}
+
+.searchResult>.MuiButtonBase-root {
+    flex-grow: 1;
+    background-color: var(--bg-soft);
+    color: black;
+    margin: 8px;
+}

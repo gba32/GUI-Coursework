@@ -30,7 +30,7 @@ console.log(loggedIn);
 
 // Object storing all current Navigation paths
 export const PATHS = [
-    new NavPath("/", "Home", <HomePage username="GBA32" loggedIn />, true),
+    new NavPath("/", "Home", <HomePage username={uname} loggedIn={loggedIn} />, true),
     new NavPath("/weather", "Weather", <WeatherPage />, false),
     new NavPath("/gpx", "GPX Weather", <GPXWeatherMapPage/>, false),
     new NavPath("/search", "Location search", <SearchPage/>, true),

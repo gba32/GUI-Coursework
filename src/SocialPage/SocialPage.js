@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './SocialPage.css';
-import NavigationBar from '../NavigationBar/NavigationBar';
-import { APP_THEME } from '../Theme/Theme';
-import ListCard, {ListCardItem} from '../ListCard/ListCard';
-import { ThemeProvider } from '@mui/material';
+import TitleBar from '../NavigationBar/NavigationBar';
 
 
 
@@ -16,7 +13,7 @@ export default function SocialPage({ onBack, onMenuOpen }) {
   const [activeTab, setActiveTab] = useState('friends');
 
 
-  
+
 
   // loaded from friends.json as placeholder data for the demo
   const [friends, setFriends] = useState(friendsData);
@@ -47,7 +44,7 @@ export default function SocialPage({ onBack, onMenuOpen }) {
 
 
 
-//friend method
+  //friend method
   function handleFriendSearch(e) {
     const query = e.target.value;
     setFriendSearch(query);
@@ -94,8 +91,8 @@ export default function SocialPage({ onBack, onMenuOpen }) {
 
 
 
-  
-//events Method
+
+  //events Method
   //filter and sort events for the search and hide events that are already saved by the user
   const filteredEvents = allEvents
     .filter(ev => {
@@ -134,10 +131,8 @@ export default function SocialPage({ onBack, onMenuOpen }) {
   return (
     <div className="social-page">
 
-      <ThemeProvider theme={APP_THEME}>
-        <NavigationBar title = "Social" />
-      </ThemeProvider>
-      
+      <TitleBar title="Social" />
+
 
 
 

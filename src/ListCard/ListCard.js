@@ -39,8 +39,6 @@ export default function ListCard({
     onExpand,
     showExpand
 }) {
-    let titleElement = (<div></div>);
-
     // Populate scrollable dropdown children
     let children = [];
     if (childPropsList) {

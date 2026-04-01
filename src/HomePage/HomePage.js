@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router';
 import { gpxData } from '../GPXroute/sampleGPX2';
 import StorageUtil from '../Utility/StorageUtil';
 import './HomePage.css';
-import { useNavigate } from 'react-router';
 
 const previousRoutes = [
   { name: 'London Marathon Course', distance: '42.2km', elevation: '127m' },
@@ -203,6 +202,7 @@ export function GuestHomePage() {
   );
 }
 
+/** */
 function HistoryCard(gpx) {
     return <article>
         <Typography variant='h4'>{gpx.metadata.name}</Typography>
