@@ -42,12 +42,14 @@ body {
   padding: 1.25rem 1rem;
   padding-bottom: 0;
   padding-bottom: 0px;
+  padding-top:0rem;
 }
 
 @media (min-width: 640px) {
   .app-main {
     padding: 1.25rem 1.5rem;
     padding-bottom: 0px;
+    padding-top:0rem;
   }
 }
 
@@ -55,6 +57,7 @@ body {
   .app-main {
     padding: 2rem 2.5rem;
     padding-bottom: 0px;
+    padding-top:0rem;
   }
 }
 
@@ -368,4 +371,20 @@ body {
 .appBar {
   background-color: var(--primary);
   color: white;
+}
+
+@media(max-width: 450px){
+  .header-card {
+      border-color: var(--border);
+      background: var(--bg-soft);
+      padding: 1rem 1.25rem;
+      padding-right: 0px;
+  }
+  
+  .routes-card {
+    background-color: var(--bg-card);
+    padding: 1.25rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
 }
