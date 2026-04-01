@@ -1,3 +1,12 @@
+/**
+ * Collection of local storage keys 
+ */
+export const STORAGE_KEY = {
+    TEMP: "TEMP_UNIT",
+    WIND: "WIND_UNIT",
+    DIST: "DIST_UNIT"
+}
+
 export default class StorageUtil {
     /*
      * Writes a string to a function only on the first invocation, or first invocation after reset
@@ -10,11 +19,14 @@ export default class StorageUtil {
     }
 
     /**
-     * @param {string} key 
+     * @param {string} key the identifier of the data in storage.
+     * @param {*} defaultValue the value to return if the data is not found.
      * @returns The session value for the given key, or null if it does not exist
      */
-    static read(key) {
-        return localStorage.getItem(key);
+    static read(key, defaultValue = null) {
+        let value = localStorage.getItem(key);
+
+        return value === null ? defaultValue : value;
     }
 
     /**
@@ -23,5 +35,6 @@ export default class StorageUtil {
      */
     static reset(key) {
         localStorage.removeItem(key + "_set");
+        localStorage.removeItem(key);
     }
 }

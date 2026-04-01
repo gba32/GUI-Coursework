@@ -5,8 +5,10 @@ import { useNavigate } from "react-router";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import GPXWeatherMap from "../GPXWeatherPage/GPXWeatherMap";
 import GPXUtil from "../Utility/GPXUtil";
-import StorageUtil from "../Utility/StorageUtil";
+import StorageUtil, { STORAGE_KEY } from "../Utility/StorageUtil";
 import './DetailsPage.css';
+import React from "react";
+import { DISTANCE_UNITS, DistanceUnit, UnitUtil } from "../Utility/UnitUtil";
 
 /**
  * A Page for displaying the details of a GPX file, which can then be confirmed or cancelled.
@@ -39,6 +41,7 @@ function formatDistance(distance, roundKM) {
  */
 function DetailsPageInternal({ gpx }) {
     const options = { color: 'red' };
+    const distanceUnits = [DISTANCE_UNITS.KM, DISTANCE_UNITS.MILE];
     let navigator = useNavigate();
     let confirmHandler = () => {
         navigator("/gpx")
@@ -48,17 +51,19 @@ function DetailsPageInternal({ gpx }) {
         StorageUtil.reset("GPX_DATA");
         navigator(-1);
     }
-
+    
     let mapDetails = GPXUtil.getMapDetails(gpx);
-    let lengthText = formatDistance(GPXUtil.getTotalTrackLength(gpx), true);
-    let elevationText = formatDistance(GPXUtil.calculateElevation(gpx), false);
+    let distanceUnit = distanceUnits[StorageUtil.read(STORAGE_KEY.DIST, 0)];
+
+    let lengthText = UnitUtil.round(DistanceUnit.convert(GPXUtil.getTotalTrackLength(gpx), DISTANCE_UNITS.M, distanceUnit), 0) + DistanceUnit.getUnitString(distanceUnit);
+    let elevationText = Math.floor(GPXUtil.calculateElevation(gpx)) + DistanceUnit.getUnitString(DISTANCE_UNITS.M);
 
     return (
             <article id="preview">
                 <section className="detailsCard">
                     <div className='title'> <Typography variant='h5'> <b> {gpx.metadata.name} </b> </Typography> </div>
-                    <Typography>Total distance: {lengthText}</Typography>
-                    <Typography>Total elevation: {elevationText}</Typography>
+                    <Typography sx={{paddingLeft: "0.25em"}}>Total distance: {lengthText}</Typography>
+                    <Typography sx={{paddingLeft: "0.25em"}}>Total elevation: {elevationText}</Typography>
                 </section>
 
                 {/* Preview of map */}

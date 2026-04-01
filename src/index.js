@@ -5,15 +5,15 @@ import reportWebVitals from './reportWebVitals';
 import MainRouter from './NavigationBar/NavLinks';
 import SettingsPage from './SettingsPage/SettingsPage';
 import SocialPage from './SocialPage/SocialPage';
-import StorageUtil from './Utility/StorageUtil';
+import StorageUtil, { STORAGE_KEY } from './Utility/StorageUtil';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // Write default values for units, doesn't overwrite existing values
-StorageUtil.writeOnce("DIST_UNIT", 0);
-StorageUtil.writeOnce("TEMP_UNIT", 0);
-StorageUtil.writeOnce("WIND_UNIT", 0);
+StorageUtil.writeOnce(STORAGE_KEY.DIST, 0);
+StorageUtil.writeOnce(STORAGE_KEY.TEMP, 0);
+StorageUtil.writeOnce(STORAGE_KEY.WIND, 0);
 
 root.render(
 	<React.StrictMode>

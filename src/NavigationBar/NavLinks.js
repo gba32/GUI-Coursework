@@ -21,24 +21,20 @@ class NavPath {
         this.navBarButton = navBarButton;
     }
 }
-const userAccount = JSON.parse(localStorage.getItem("loggedInUser"));
-let uname = userAccount?.name ?? "Guest";
-let loggedIn = !!userAccount;
-console.log(loggedIn);
 
 
 
 // Object storing all current Navigation paths
 export const PATHS = [
-    new NavPath("/", "Home", <HomePage username={uname} loggedIn={loggedIn} />, true),
+    new NavPath("/", "Home", <HomePage/>, true),
     new NavPath("/weather", "Weather", <WeatherPage />, false),
     new NavPath("/gpx", "GPX Weather", <GPXWeatherMapPage/>, false),
     new NavPath("/search", "Location search", <SearchPage/>, true),
-    new NavPath("/details", "GPX Details", <DetailsPage/>, true),
+    new NavPath("/details", "GPX Details", <DetailsPage/>, false),
     new NavPath("/social", "Social", <SocialPage/>, true),
     new NavPath("/settings", "Settings", <SettingsPage/>, true),
     new NavPath("/login", "Login", <LoginPage/>, true),
-    new NavPath("/register", "Register", <RegisterPage/>, true) 
+    new NavPath("/register", "Register", <RegisterPage/>, true),
 ]
 
 /**

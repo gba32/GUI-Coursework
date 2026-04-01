@@ -16,7 +16,10 @@ const previousRoutes = [
  * @param {boolean} loggedIn
  * @param {string}  username
  */
-export default function HomePage({ loggedIn, username }) {
+export default function HomePage() {
+    const userAccount = JSON.parse(localStorage.getItem("loggedInUser"));
+    let username = userAccount?.name ?? "Guest";
+    let loggedIn = !!userAccount;
   return loggedIn ? <AccountHomePage username={username} /> : <GuestHomePage />;
 }
 

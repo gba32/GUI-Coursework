@@ -11,7 +11,7 @@ import ErrorPage from "../ErrorPage/ErrorPage";
 import { API_KEY } from "../KEY_PROVIDER";
 import notFoundIcon from "../NotFound.png";
 import GPXUtil from "../Utility/GPXUtil";
-import StorageUtil from "../Utility/StorageUtil";
+import StorageUtil, { STORAGE_KEY } from "../Utility/StorageUtil";
 import { SPEED_UNITS, SpeedUnit, TEMP_UNITS, TempUnit, UnitUtil } from "../Utility/UnitUtil";
 import { WeatherUtil } from "../Utility/WeatherUtil";
 import shadow from '../iconShadow.png';
@@ -105,10 +105,8 @@ function GPXWeatherMapPage({ gpx }) {
     let tempUnits = [TEMP_UNITS.CELCIUS, TEMP_UNITS.FAHRENHEIT];
     let speedUnits = [SPEED_UNITS.MS, SPEED_UNITS.MPH, SPEED_UNITS.KPH];
 
-    let storedTempUnit = StorageUtil.read("TEMP_UNIT");
-    let storedWindUnit = StorageUtil.read("WIND_UNIT");
-    let tempUnit = tempUnits[storedTempUnit === null ? 0 : storedTempUnit];
-    let windUnit = speedUnits[storedWindUnit === null ? 0 : storedWindUnit];
+    let tempUnit = tempUnits[StorageUtil.read(STORAGE_KEY.TEMP, 0)];
+    let windUnit = speedUnits[StorageUtil.read(STORAGE_KEY.WIND, 0)];
     const options = { color: 'red' };
 
     // Only load weather data on initial load to avoid a large amount of requests
@@ -189,7 +187,7 @@ function GPXWeatherMapPage({ gpx }) {
             );
             setMarkers(newMarkers);
         }
-    }, [loaded, gpx, pace, unitIndex, startDate]);
+    }, [loaded, gpx, pace, unitIndex, startDate, SECONDS_PER_HOUR, tempUnit, windUnit]);
 
     return (
         <div className="mapContainer" >

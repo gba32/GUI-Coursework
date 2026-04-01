@@ -7,7 +7,7 @@ import { API_KEY } from "../KEY_PROVIDER";
 import ListCard from "../ListCard/ListCard";
 import TitleBar from "../NavigationBar/NavigationBar";
 import { RenderOptional } from "../Utility/ReactUtil";
-import StorageUtil from "../Utility/StorageUtil";
+import StorageUtil, { STORAGE_KEY } from "../Utility/StorageUtil";
 import { TEMP_UNITS, TempUnit, UnitUtil } from "../Utility/UnitUtil";
 import { WeatherUtil } from "../Utility/WeatherUtil";
 import "./WeatherPage.css";
@@ -26,13 +26,12 @@ export default function WeatherPage() {
  * @param {*} locationData Geocoding information for a given location
  */
 function WeatherPageInternal({ locationData }) {
+    const apiKey = API_KEY;
     let [currentWeatherJSON, setCurrentWeather] = useState({ data: {}, loaded: false });
     let [dailyWeatherJSON, setDailyWeather] = useState({ data: {}, loaded: false });
-    const apiKey = API_KEY;
     let navigator = useNavigate();
     let tempUnits = [TEMP_UNITS.CELCIUS, TEMP_UNITS.FAHRENHEIT];
-    let storedTempUnit = StorageUtil.read("TEMP_UNIT");
-    let unit = tempUnits[storedTempUnit === null ? 0 : storedTempUnit];
+    let unit = tempUnits[StorageUtil.read(STORAGE_KEY.TEMP, 0)];
 
     // Fetch weather data only on initial load
     useEffect(() => {

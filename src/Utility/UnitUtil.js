@@ -14,6 +14,12 @@ export const TEMP_UNITS = {
     FAHRENHEIT: 2
 }
 
+export const DISTANCE_UNITS = {
+    M: 0,
+    KM: 1,
+    MILE: 2
+}
+
 // stores value of each unit in m/s
 const SPEED_SCALES = [1, METERS_PER_MILE / SECONDS_PER_HOUR, METERS_PER_KM / SECONDS_PER_HOUR];
 const SPEED_UNIT_STRINGS = ["m/s", "mph", "kph"];
@@ -23,8 +29,9 @@ const TEMP_UNIT_PRE_OFFSETS = [0, -273.15, -273.15];
 const TEMP_UNIT_SCALES = [1, 1, 1.8]
 const TEMP_UNIT_POST_OFFSETS = [0, 0, 32];
 
-
-
+// Stores scale relative to meters;
+const DISTANCE_SCALES = [1, 1/1000, 1/1609.344];
+const DISTANCE_UNIT_STRINGS = ["m", "km", " miles"];
 
 export class UnitUtil {
     static round(value, dp = 2) {
@@ -48,5 +55,15 @@ export class TempUnit {
     static convert(value, from, to) {
         let kelvin = (value - TEMP_UNIT_POST_OFFSETS[from])/TEMP_UNIT_SCALES[from] + TEMP_UNIT_PRE_OFFSETS[from];
         return (kelvin + TEMP_UNIT_PRE_OFFSETS[to]) * TEMP_UNIT_SCALES[to] + TEMP_UNIT_POST_OFFSETS[to];
+    }
+}
+
+export class DistanceUnit {
+    static convert(value, from, to) {
+        return (value / DISTANCE_SCALES[from]) * DISTANCE_SCALES[to];
+    }
+
+    static getUnitString(unit) {
+        return DISTANCE_UNIT_STRINGS[unit];
     }
 }
